@@ -9,8 +9,9 @@ class EnvironmentStatusCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.green[100],
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.green[200]!),
       ),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,

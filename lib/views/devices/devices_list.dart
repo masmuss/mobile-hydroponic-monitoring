@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hydroponic/views/devices/device_monitoring_detail.dart';
 
 class DevicesList extends StatefulWidget {
   const DevicesList({super.key});
