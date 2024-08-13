@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:hydroponic/models/device.dart';
 import 'package:hydroponic/services/device_service.dart';
@@ -26,7 +24,6 @@ class _DevicesListState extends State<DevicesList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            log('Error loading devices: ${snapshot.error}');
             return const Center(child: Text('Error loading devices'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No devices available'));
@@ -42,7 +39,7 @@ class _DevicesListState extends State<DevicesList> {
                   onTap: () {
                     Navigator.of(context).pushNamed(
                       '/device-monitoring-detail',
-                      arguments: index.toString(),
+                      arguments: device.id,
                     );
                   },
                 );
