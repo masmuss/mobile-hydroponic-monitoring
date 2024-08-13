@@ -14,19 +14,19 @@ class InfoRow extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, color: Colors.grey[600]),
-          const SizedBox(width: 16),
+          const SizedBox(width: 14),
           Text(
             label,
             style: TextStyle(
               color: Colors.grey[600],
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
           const Spacer(),
           Text(
             value,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
           ),

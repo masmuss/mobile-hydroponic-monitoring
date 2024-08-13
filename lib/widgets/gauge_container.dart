@@ -36,11 +36,12 @@ class GaugeContainer extends StatelessWidget {
                   value: value,
                   needleEndWidth: 2,
                   needleLength: 1,
-                  knobStyle: KnobStyle(
+                  enableAnimation: true,
+                  knobStyle: const KnobStyle(
                     knobRadius: 8,
                     sizeUnit: GaugeSizeUnit.logicalPixel,
                   ),
-                  tailStyle: TailStyle(
+                  tailStyle: const TailStyle(
                     width: 2,
                     lengthUnit: GaugeSizeUnit.logicalPixel,
                     length: 16,
