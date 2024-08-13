@@ -2,7 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:hydroponic/widgets/info_row.dart';
 
 class MonitoringInfo extends StatefulWidget {
-  const MonitoringInfo({super.key});
+  final int humidity;
+  final double ph;
+  final int tds;
+  final double temperature;
+
+  const MonitoringInfo({
+    super.key,
+    required this.humidity,
+    required this.ph,
+    required this.tds,
+    required this.temperature,
+  });
 
   @override
   State<MonitoringInfo> createState() => _MonitoringInfoState();
@@ -20,16 +31,28 @@ class _MonitoringInfoState extends State<MonitoringInfo> {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Colors.grey[200]!),
         ),
-        child: const Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InfoRow(icon: Icons.opacity, label: 'pH level', value: '11.3'),
-            InfoRow(icon: Icons.grain, label: 'Humidity percentage', value: '20%'),
-            InfoRow(icon: Icons.thermostat, label: 'Real Temperature', value: '58°C'),
-            InfoRow(icon: Icons.science, label: 'Total Dissolved Solids (TDS)', value: '1200 ppm'),
+            InfoRow(
+                icon: Icons.opacity,
+                label: 'pH level',
+                value: widget.ph.toString()),
+            InfoRow(
+                icon: Icons.grain,
+                label: 'Humidity percentage',
+                value: "${widget.humidity}%"),
+            InfoRow(
+                icon: Icons.thermostat,
+                label: 'Real Temperature',
+                value: "${widget.temperature}°C"),
+            InfoRow(
+                icon: Icons.science,
+                label: 'Total Dissolved Solids (TDS)',
+                value: "${widget.tds} ppm"),
           ],
         ),
       ),
-    );;
+    );
   }
 }

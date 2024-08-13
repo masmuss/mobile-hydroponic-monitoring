@@ -2,9 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:hydroponic/widgets/gauge_container.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class TemperatureHumidityGauge extends StatelessWidget {
-  const TemperatureHumidityGauge({super.key});
+class TemperatureHumidityGauge extends StatefulWidget {
+  final int humidity;
+  final double temperature;
 
+  const TemperatureHumidityGauge({
+    super.key,
+    required this.humidity,
+    required this.temperature,
+  });
+
+  @override
+  State<TemperatureHumidityGauge> createState() => _TemperatureHumidityGaugeState();
+}
+
+class _TemperatureHumidityGaugeState extends State<TemperatureHumidityGauge> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +25,7 @@ class TemperatureHumidityGauge extends StatelessWidget {
         children: [
           GaugeContainer(
             label: 'Temp.°C',
-            value: 22.5,
+            value: widget.temperature,
             ranges: [
               GaugeRange(startValue: 0, endValue: 25, color: Colors.green),
               GaugeRange(startValue: 25, endValue: 40, color: Colors.orange),
@@ -22,7 +34,7 @@ class TemperatureHumidityGauge extends StatelessWidget {
           ),
           GaugeContainer(
             label: 'Humidity',
-            value: 27.5,
+            value: widget.humidity.toDouble(),
             ranges: [
               GaugeRange(startValue: 0, endValue: 25, color: Colors.green),
               GaugeRange(startValue: 25, endValue: 40, color: Colors.orange),
