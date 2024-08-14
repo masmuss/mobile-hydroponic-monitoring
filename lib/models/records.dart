@@ -2,14 +2,16 @@ class Records {
   final String datetime;
   final num hum;
   final num ph;
-  final num tds;
+  final num tds1;
+  final num tds2;
   final num temp;
 
   Records({
     required this.datetime,
     required this.hum,
     required this.ph,
-    required this.tds,
+    required this.tds1,
+    required this.tds2,
     required this.temp,
   });
 
@@ -18,7 +20,8 @@ class Records {
       datetime: json['datetime'] as String,
       hum: json['hum'] as num,
       ph: json['ph'] as num,
-      tds: json['tds'] as num,
+      tds1: json['tds1'] as num,
+      tds2: json['tds2'] as num,
       temp: json['temp'] as num,
     );
   }
@@ -28,7 +31,8 @@ class Records {
       'datetime': datetime,
       'hum': hum,
       'ph': ph,
-      'tds': tds,
+      'tds1': tds1,
+      'tds2': tds2,
       'temp': temp,
     };
   }

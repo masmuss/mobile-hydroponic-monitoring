@@ -34,7 +34,8 @@ class _DeviceMonitoringState extends State<DeviceMonitoring> {
                   humidity: widget.device.records.hum,
                   temperature: widget.device.records.temp,
                   ph: widget.device.records.ph,
-                  tds: widget.device.records.tds,
+                  tds1: widget.device.records.tds1,
+                  tds2: widget.device.records.tds2,
                 ),
                 TemperatureHumidityGauge(
                   humidity: widget.device.records.hum,
