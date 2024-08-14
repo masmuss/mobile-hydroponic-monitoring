@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hydroponic/services/device_service.dart';
 import 'package:hydroponic/views/device/device_control.dart';
 import 'package:hydroponic/views/device/device_monitoring.dart';
 import 'package:hydroponic/widgets/device_navigation_bar.dart';

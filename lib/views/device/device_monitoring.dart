@@ -35,9 +35,9 @@ class _DeviceMonitoringState extends State<DeviceMonitoring> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  MonitoringHeader(),
+                  const MonitoringHeader(),
                   const SizedBox(height: 20),
-                  EnvironmentStatusCard(),
+                  const EnvironmentStatusCard(),
                   const SizedBox(height: 20),
                   Expanded(
                     child: SingleChildScrollView(

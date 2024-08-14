@@ -21,12 +21,6 @@ class DeviceService {
         devices.add(device);
       }
 
-      log("devices ${devices.map((device) => {
-            print('Device ID: ${device.id}'),
-            print('Device Name: ${device.name}'),
-            print('Device Config Relay 1: ${device.configs.relay1}'),
-          })}");
-
       return devices;
     });
   }
