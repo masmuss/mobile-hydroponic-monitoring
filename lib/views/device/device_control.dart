@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hydroponic/models/device.dart';
 import 'package:hydroponic/services/device_service.dart';
@@ -13,48 +15,10 @@ class DeviceControl extends StatefulWidget {
 
 class _DeviceControlState extends State<DeviceControl> {
   final DeviceService _deviceService = DeviceService();
-  Map<String, bool> _relayStates = {
-    'relay1': false,
-    'relay2': false,
-    'relay3': false,
-    'relay4': false,
-    'relay5': false,
-  };
-
-  @override
-  void initState() {
-    super.initState();
-    _loadRelayStates();
-  }
-
-  Future<void> _loadRelayStates() async {
-    try {
-      final config = await _deviceService.getDeviceConfig(widget.device.id);
-      if (config != null) {
-        setState(() {
-          _relayStates = {
-            'relay1': config['relay1'] ?? false,
-            'relay2': config['relay2'] ?? false,
-            'relay3': config['relay3'] ?? false,
-            'relay4': config['relay4'] ?? false,
-            'relay5': config['relay5'] ?? false,
-          };
-        });
-      }
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load relay states: $error')),
-      );
-    }
-  }
 
   Future<void> _toggleRelay(String relayKey, bool value) async {
     try {
       await _deviceService.updateRelayConfig(widget.device.id, relayKey, value);
-      setState(() {
-        _relayStates[relayKey] = value;
-      });
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(
@@ -69,19 +33,38 @@ class _DeviceControlState extends State<DeviceControl> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _relayStates.keys.map((relayKey) {
-        return ListTile(
-          title: Text(
-              "${relayKey.substring(0, 5).toUpperCase()} ${relayKey.substring(5)}"),
-          trailing: Switch(
-            value: _relayStates[relayKey]!,
-            onChanged: (bool value) {
-              _toggleRelay(relayKey, value);
-            },
-          ),
+    return StreamBuilder<Map<String, bool>>(
+      stream: _deviceService.getDeviceConfigStream(widget.device.id),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error loading relay states: ${snapshot.error}'),
+          );
+        } else if (!snapshot.hasData) {
+          return const Center(child: Text('No relay states available'));
+        }
+
+        final Map<String, bool> relayStates = snapshot.data!;
+
+        log(relayStates.keys.toString());
+
+        return Column(
+          children: relayStates.keys.map((relayKey) {
+            return ListTile(
+              title: Text(
+                  "${relayKey.substring(0, 5).toUpperCase()} ${relayKey.substring(5)}"),
+              trailing: Switch(
+                value: relayStates[relayKey]!,
+                onChanged: (bool value) {
+                  _toggleRelay(relayKey, value);
+                },
+              ),
+            );
+          }).toList(),
         );
-      }).toList(),
+      },
     );
   }
 }

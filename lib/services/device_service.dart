@@ -60,7 +60,24 @@ class DeviceService {
     return null;
   }
 
-  Future<void> updateRelayConfig(String deviceId, String relayKey, bool value) async {
+  Stream<Map<String, bool>> getDeviceConfigStream(String deviceId) {
+    return _deviceRef
+        .child(deviceId)
+        .child('configs')
+        .onValue
+        .map((event) {
+      final configData = event.snapshot.value as Map<Object?, Object?>;
+
+      final configDataMap = configData.map((key, value) {
+        return MapEntry(key as String, value as bool);
+      });
+
+      return Map<String, bool>.from(configDataMap);
+    });
+  }
+
+  Future<void> updateRelayConfig(
+      String deviceId, String relayKey, bool value) async {
     try {
       await _deviceRef.child(deviceId).child('configs').update({
         relayKey: value,

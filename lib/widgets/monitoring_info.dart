@@ -39,23 +39,23 @@ class _MonitoringInfoState extends State<MonitoringInfo> {
             InfoRow(
                 icon: Icons.opacity,
                 label: 'pH level',
-                value: widget.ph.toString()),
+                value: widget.ph.toStringAsFixed(1)),
             InfoRow(
                 icon: Icons.grain,
                 label: 'Humidity percentage',
-                value: "${widget.humidity}%"),
+                value: "${widget.humidity.toStringAsFixed(1)}%"),
             InfoRow(
                 icon: Icons.thermostat,
                 label: 'Real Temperature',
-                value: "${widget.temperature}°C"),
+                value: "${widget.temperature.toStringAsFixed(1)}°C"),
             InfoRow(
                 icon: Icons.science,
                 label: 'Total Dissolved Solids (TDS) 1',
-                value: "${widget.tds1} ppm"),
+                value: "${widget.tds1.ceilToDouble()} ppm"),
             InfoRow(
                 icon: Icons.science,
                 label: 'Total Dissolved Solids (TDS) 2',
-                value: "${widget.tds2} ppm"),
+                value: "${widget.tds2.ceilToDouble()} ppm"),
           ],
         ),
       ),
