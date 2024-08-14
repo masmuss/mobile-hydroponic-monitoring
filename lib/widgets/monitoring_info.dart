@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hydroponic/widgets/info_row.dart';
 
 class MonitoringInfo extends StatefulWidget {
-  final int humidity;
-  final double ph;
-  final int tds;
-  final double temperature;
+  final num humidity;
+  final num ph;
+  final num tds;
+  final num temperature;
 
   const MonitoringInfo({
     super.key,

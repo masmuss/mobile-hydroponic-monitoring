@@ -1,9 +1,9 @@
 class Configs {
-  final int relay1;
-  final int relay2;
-  final int relay3;
-  final int relay4;
-  final int relay5;
+  final bool relay1;
+  final bool relay2;
+  final bool relay3;
+  final bool relay4;
+  final bool relay5;
 
   Configs({
     required this.relay1,
@@ -15,15 +15,15 @@ class Configs {
 
   factory Configs.fromJson(Map<Object?, Object?> json) {
     return Configs(
-      relay1: json['relay1'] as int,
-      relay2: json['relay2'] as int,
-      relay3: json['relay3'] as int,
-      relay4: json['relay4'] as int,
-      relay5: json['relay5'] as int,
+      relay1: json['relay1'] as bool,
+      relay2: json['relay2'] as bool,
+      relay3: json['relay3'] as bool,
+      relay4: json['relay4'] as bool,
+      relay5: json['relay5'] as bool,
     );
   }
 
-  Map<String, int> toJson() {
+  Map<String, bool> toJson() {
     return {
       'relay1': relay1,
       'relay2': relay2,

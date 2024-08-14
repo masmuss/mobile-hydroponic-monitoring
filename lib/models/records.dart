@@ -1,9 +1,9 @@
 class Records {
   final String datetime;
-  final int hum;
-  final double ph;
-  final int tds;
-  final double temp;
+  final num hum;
+  final num ph;
+  final num tds;
+  final num temp;
 
   Records({
     required this.datetime,
@@ -16,10 +16,10 @@ class Records {
   factory Records.fromJson(Map<Object?, Object?> json) {
     return Records(
       datetime: json['datetime'] as String,
-      hum: json['hum'] as int,
-      ph: json['ph'] as double,
-      tds: json['tds'] as int,
-      temp: json['temp'] as double,
+      hum: json['hum'] as num,
+      ph: json['ph'] as num,
+      tds: json['tds'] as num,
+      temp: json['temp'] as num,
     );
   }
 
