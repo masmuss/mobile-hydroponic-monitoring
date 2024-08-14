@@ -9,10 +9,12 @@ class MonitoringAndDeviceControl extends StatefulWidget {
   const MonitoringAndDeviceControl({super.key, required this.deviceId});
 
   @override
-  State<MonitoringAndDeviceControl> createState() => _MonitoringAndDeviceControlState();
+  State<MonitoringAndDeviceControl> createState() =>
+      _MonitoringAndDeviceControlState();
 }
 
-class _MonitoringAndDeviceControlState extends State<MonitoringAndDeviceControl> {
+class _MonitoringAndDeviceControlState
+    extends State<MonitoringAndDeviceControl> {
   int _selectedIndex = 0;
 
   void _onDestinationSelected(int index) {
@@ -34,10 +36,9 @@ class _MonitoringAndDeviceControlState extends State<MonitoringAndDeviceControl>
               index: _selectedIndex,
               children: <Widget>[
                 DeviceMonitoring(deviceId: widget.deviceId),
-                const DeviceControl()
+                DeviceControl(deviceId: widget.deviceId)
               ],
-            )
-        ),
+            )),
       ),
       bottomNavigationBar: DeviceNavigationBar(
         selectedIndex: _selectedIndex,
@@ -45,5 +46,4 @@ class _MonitoringAndDeviceControlState extends State<MonitoringAndDeviceControl>
       ),
     );
   }
-
 }

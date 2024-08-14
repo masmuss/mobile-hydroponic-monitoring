@@ -18,10 +18,10 @@ class DeviceService {
       for (DataSnapshot deviceSnapshot in snapshot.children) {
         final deviceData = deviceSnapshot.value as Map<Object?, Object?>;
         final deviceDataMap =
-        deviceData.map((key, value) => MapEntry(key as String, value));
+            deviceData.map((key, value) => MapEntry(key as String, value));
 
         Device device =
-        Device.fromJson(Map<String, dynamic>.from(deviceDataMap));
+            Device.fromJson(Map<String, dynamic>.from(deviceDataMap));
 
         log(device.toString());
 
@@ -40,10 +40,7 @@ class DeviceService {
   }
 
   Stream<Device> getDeviceByIdStream(String deviceId) {
-    return _deviceRef
-        .child(deviceId)
-        .onValue
-        .map((event) {
+    return _deviceRef.child(deviceId).onValue.map((event) {
       final deviceData = event.snapshot.value as Map<Object?, Object?>;
       log(deviceData.values.toString());
 
@@ -52,5 +49,26 @@ class DeviceService {
 
       return Device.fromJson(Map<String, dynamic>.from(deviceDataMap));
     });
+  }
+
+  Future<Map<String, dynamic>?> getDeviceConfig(String deviceId) async {
+    DataSnapshot snapshot =
+        await _deviceRef.child(deviceId).child('configs').get();
+    if (snapshot.exists) {
+      return Map<String, dynamic>.from(snapshot.value as Map<Object?, Object?>);
+    }
+    return null;
+  }
+
+  Future<void> updateRelayConfig(String deviceId, String relayKey, bool value) async {
+    try {
+      await _deviceRef.child(deviceId).child('configs').update({
+        relayKey: value,
+      });
+      log('Relay $relayKey updated to $value for device $deviceId');
+    } catch (error) {
+      log('Failed to update relay $relayKey for device $deviceId: $error');
+      rethrow;
+    }
   }
 }
