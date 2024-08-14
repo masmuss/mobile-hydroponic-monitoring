@@ -4,14 +4,16 @@ import 'package:hydroponic/widgets/info_row.dart';
 class MonitoringInfo extends StatefulWidget {
   final num humidity;
   final num ph;
-  final num tds;
+  final num tds1;
+  final num tds2;
   final num temperature;
 
   const MonitoringInfo({
     super.key,
     required this.humidity,
     required this.ph,
-    required this.tds,
+    required this.tds1,
+    required this.tds2,
     required this.temperature,
   });
 
@@ -48,8 +50,12 @@ class _MonitoringInfoState extends State<MonitoringInfo> {
                 value: "${widget.temperature}°C"),
             InfoRow(
                 icon: Icons.science,
-                label: 'Total Dissolved Solids (TDS)',
-                value: "${widget.tds} ppm"),
+                label: 'Total Dissolved Solids (TDS) 1',
+                value: "${widget.tds1} ppm"),
+            InfoRow(
+                icon: Icons.science,
+                label: 'Total Dissolved Solids (TDS) 2',
+                value: "${widget.tds2} ppm"),
           ],
         ),
       ),
