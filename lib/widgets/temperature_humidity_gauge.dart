@@ -3,8 +3,8 @@ import 'package:hydroponic/widgets/gauge_container.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class TemperatureHumidityGauge extends StatefulWidget {
-  final int humidity;
-  final double temperature;
+  final num humidity;
+  final num temperature;
 
   const TemperatureHumidityGauge({
     super.key,
@@ -25,7 +25,7 @@ class _TemperatureHumidityGaugeState extends State<TemperatureHumidityGauge> {
         children: [
           GaugeContainer(
             label: 'Temp.°C',
-            value: widget.temperature,
+            value: widget.temperature.toDouble(),
             ranges: [
               GaugeRange(startValue: 0, endValue: 25, color: Colors.green),
               GaugeRange(startValue: 25, endValue: 40, color: Colors.orange),

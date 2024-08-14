@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hydroponic/views/devices/device_monitoring_detail.dart';
-import 'package:hydroponic/views/devices/devices_list.dart';
+import 'package:hydroponic/pages/monitoring_and_device_control.dart';
+import 'package:hydroponic/pages/devices_list.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/device-monitoring-detail': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as String;
-          return DeviceMonitoringDetail(deviceId: args);
+          return MonitoringAndDeviceControl(deviceId: args);
         },
       },
       home: const DevicesList(),
