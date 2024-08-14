@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hydroponic/models/device.dart';
 import 'package:hydroponic/services/device_service.dart';
 
 class DeviceControl extends StatefulWidget {
-  final String deviceId;
+  final Device device;
 
-  const DeviceControl({super.key, required this.deviceId});
+  const DeviceControl({super.key, required this.device});
 
   @override
   State<DeviceControl> createState() => _DeviceControlState();
@@ -28,7 +29,7 @@ class _DeviceControlState extends State<DeviceControl> {
 
   Future<void> _loadRelayStates() async {
     try {
-      final config = await _deviceService.getDeviceConfig(widget.deviceId);
+      final config = await _deviceService.getDeviceConfig(widget.device.id);
       if (config != null) {
         setState(() {
           _relayStates = {
@@ -49,7 +50,7 @@ class _DeviceControlState extends State<DeviceControl> {
 
   Future<void> _toggleRelay(String relayKey, bool value) async {
     try {
-      await _deviceService.updateRelayConfig(widget.deviceId, relayKey, value);
+      await _deviceService.updateRelayConfig(widget.device.id, relayKey, value);
       setState(() {
         _relayStates[relayKey] = value;
       });
