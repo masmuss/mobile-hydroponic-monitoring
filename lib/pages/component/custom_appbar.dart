@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hydroponic_app/pages/common/colors.dart';
+import 'package:hydroponic/pages/common/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});

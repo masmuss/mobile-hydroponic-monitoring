@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hydroponic_app/pages/common/colors.dart';
-import 'package:hydroponic_app/pages/common/styles.dart';
+import 'package:hydroponic/pages/common/colors.dart';
+import 'package:hydroponic/pages/common/styles.dart';
 
 List<String> months = [
   'January',

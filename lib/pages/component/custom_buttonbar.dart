@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hydroponic_app/pages/common/colors.dart';
-import 'package:hydroponic_app/providers/button_providers';
+import 'package:hydroponic/pages/common/colors.dart';
+import 'package:hydroponic/providers/button_providers';
 import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatelessWidget {

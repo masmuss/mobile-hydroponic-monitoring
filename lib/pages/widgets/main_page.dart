@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hydroponic_app/pages/component/custom_buttonbar.dart';
-import 'package:hydroponic_app/pages/widgets/analytic_page.dart';
-import 'package:hydroponic_app/pages/widgets/control_page.dart';
-import 'package:hydroponic_app/pages/widgets/home_page.dart';
-import 'package:hydroponic_app/pages/widgets/predict_page.dart';
+import 'package:hydroponic/pages/component/custom_buttonbar.dart';
+import 'package:hydroponic/pages/widgets/analytic_page.dart';
+import 'package:hydroponic/pages/widgets/control_page.dart';
+import 'package:hydroponic/pages/widgets/home_page.dart';
+import 'package:hydroponic/pages/widgets/predict_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hydroponic_app/pages/common/colors.dart';
-import 'package:hydroponic_app/pages/common/styles.dart';
-import 'package:hydroponic_app/pages/component/custom_appbar.dart';
+import 'package:hydroponic/pages/common/colors.dart';
+import 'package:hydroponic/pages/common/styles.dart';
+import 'package:hydroponic/pages/component/custom_appbar.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});

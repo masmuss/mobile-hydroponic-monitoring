@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:hydroponic_app/pages/common/colors.dart';
+import 'package:hydroponic/pages/common/colors.dart';
 
 class CustomGraph extends StatefulWidget {
   const CustomGraph({super.key});
