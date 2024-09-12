@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hydroponic/pages/common/colors.dart';
 import 'package:hydroponic/pages/common/styles.dart';
+import 'package:hydroponic/pages/component/custom_graph.dart';
 
 List<String> months = [
   'January',
@@ -33,7 +34,7 @@ class _AnalyticPageState extends State<AnalyticPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +73,7 @@ class _AnalyticPageState extends State<AnalyticPage> {
                       _toggleDropdown();
                     },
                     child: Container(
-                      width: 150, // Set the width to match the dropdown items
+                      width: 150,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
@@ -141,7 +142,11 @@ class _AnalyticPageState extends State<AnalyticPage> {
                   ],
                 ),
               ),
-            )
+            ),
+            const SizedBox(height: 20),
+            const CustomGraph(),
+            const SizedBox(height: 20),
+            const CustomGraph(),
           ],
         ),
       ),
@@ -161,25 +166,24 @@ class _AnalyticPageState extends State<AnalyticPage> {
   OverlayEntry _createOverlayEntry() {
     return OverlayEntry(
       builder: (context) => Positioned(
-        width: 200, // Ensure dropdown matches the width of the Container
+        width: 200,
         child: CompositedTransformFollower(
           link: _layerLink,
           showWhenUnlinked: false,
-          offset: const Offset(0.0, 40), // Position below the selected item
+          offset: const Offset(0.0, 40),
           child: Material(
             elevation: 4.0,
             borderRadius: BorderRadius.circular(8),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
-                maxHeight:
-                    200, // Set max height to make the dropdown scrollable
+                maxHeight: 200,
               ),
               child: ListView(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 children: months.map((month) {
                   return Container(
-                    width: 200, // Match width with the selected item container
+                    width: 200,
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: GestureDetector(
