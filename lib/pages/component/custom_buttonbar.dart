@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hydroponic/pages/common/colors.dart';
-import 'package:hydroponic/providers/button_providers';
-import 'package:provider/provider.dart';
+import 'package:hydroponic/pages/widgets/control_page.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onItemTapped;
   final VoidCallback onKonsultasi;
+
   const BottomNavBar({
     super.key,
     required this.selectedIndex,
@@ -16,17 +16,27 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomNavBarProvider = Provider.of<ButtonProviders>(context);
-
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      currentIndex: bottomNavBarProvider.currentIndex,
+      currentIndex: selectedIndex,
       onTap: (index) {
-        if (index != 2) {
-          bottomNavBarProvider.currentIndex = index;
-          onItemTapped(index);
+        if (index == 2) {
+          // Tampilkan ControlPage sebagai BottomSheet ketika tombol Control ditekan
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true, // Agar BottomSheet bisa penuh
+            builder: (BuildContext context) {
+              return DraggableScrollableSheet(
+                expand: false,
+                builder:
+                    (BuildContext context, ScrollController scrollController) {
+                  return ControlPage(scrollController: scrollController);
+                },
+              );
+            },
+          );
         } else {
-          onKonsultasi();
+          onItemTapped(index);
         }
       },
       selectedItemColor: BaseColors.success500,
@@ -39,7 +49,7 @@ class BottomNavBar extends StatelessWidget {
             const AssetImage(
               'assets/images/icons/home_icon.png',
             ),
-            color: bottomNavBarProvider.currentIndex == 0
+            color: selectedIndex == 0
                 ? BaseColors.success500
                 : BaseColors.neutral500,
             size: 24,
@@ -49,7 +59,7 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: ImageIcon(
             const AssetImage('assets/images/icons/analytic_icon.png'),
-            color: bottomNavBarProvider.currentIndex == 1
+            color: selectedIndex == 1
                 ? BaseColors.success500
                 : BaseColors.neutral500,
             size: 24,
@@ -59,7 +69,7 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: ImageIcon(
             const AssetImage('assets/images/icons/control_icon.png'),
-            color: bottomNavBarProvider.currentIndex == 3
+            color: selectedIndex == 2
                 ? BaseColors.success500
                 : BaseColors.neutral500,
             size: 24,
@@ -69,7 +79,7 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: ImageIcon(
             const AssetImage('assets/images/icons/predic_icon.png'),
-            color: bottomNavBarProvider.currentIndex == 3
+            color: selectedIndex == 3
                 ? BaseColors.success500
                 : BaseColors.neutral500,
             size: 24,
@@ -79,7 +89,7 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: ImageIcon(
             const AssetImage('assets/images/icons/profile_icon.png'),
-            color: bottomNavBarProvider.currentIndex == 4
+            color: selectedIndex == 4
                 ? BaseColors.success500
                 : BaseColors.neutral500,
             size: 24,
