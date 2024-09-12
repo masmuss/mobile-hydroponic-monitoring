@@ -46,6 +46,7 @@ class _DevicesListState extends State<DevicesList> {
           return const Center(child: Text('Error loading devices'));
         } else if (!snapshot.hasData ||
             snapshot.data!.isEmpty ||
+            // ignore: unnecessary_null_comparison
             _deviceStorage.getDeviceIds() == null) {
           return const Center(child: Text('No devices available'));
         } else {
