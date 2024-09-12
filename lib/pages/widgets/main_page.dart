@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  int _selectedIndex = 0; // Inisialisasi _selectedIndex
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -28,13 +28,16 @@ class _MainPage extends State<MainPage> {
     super.initState();
   }
 
+  final ScrollController scrollController = ScrollController();
+
   final pages = [
     const Homepage(),
     const AnalyticPage(),
-    const ControlPage(),
     const PredictPage(),
+    ControlPage(scrollController: ScrollController()),
     const AnalyticPage(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,11 +45,18 @@ class _MainPage extends State<MainPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ControlPage(),
-            ),
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (BuildContext context) {
+              return DraggableScrollableSheet(
+                expand: false,
+                builder:
+                    (BuildContext context, ScrollController scrollController) {
+                  return ControlPage(scrollController: scrollController);
+                },
+              );
+            },
           );
         },
         child: Container(
@@ -62,11 +72,19 @@ class _MainPage extends State<MainPage> {
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
         onKonsultasi: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ControlPage(),
-            ),
+          // Panggil ControlPage sebagai BottomSheet
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (BuildContext context) {
+              return DraggableScrollableSheet(
+                expand: false,
+                builder:
+                    (BuildContext context, ScrollController scrollController) {
+                  return ControlPage(scrollController: scrollController);
+                },
+              );
+            },
           );
         },
       ),
