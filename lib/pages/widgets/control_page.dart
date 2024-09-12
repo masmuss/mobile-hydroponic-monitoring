@@ -146,7 +146,7 @@ class _ControlPageState extends State<ControlPage> {
           height: 90,
           decoration: BoxDecoration(
             color: isManualMode
-                ? (currentState ? BaseColors.success600 : BaseColors.neutral200)
+                ? (currentState ? Colors.transparent : BaseColors.success500)
                 : (currentState
                     ? BaseColors.neutral500
                     : BaseColors.neutral300),
@@ -172,8 +172,8 @@ class _ControlPageState extends State<ControlPage> {
                           AppStyle.appTextStyles.smallNormalReguler!.copyWith(
                         color: isManualMode
                             ? (currentState
-                                ? BaseColors.neutral50
-                                : BaseColors.neutral900)
+                                ? BaseColors.neutral900
+                                : BaseColors.neutral50)
                             : (currentState
                                 ? BaseColors.neutral50
                                 : BaseColors.neutral900),
@@ -185,8 +185,8 @@ class _ControlPageState extends State<ControlPage> {
                           AppStyle.appTextStyles.smallNormalReguler!.copyWith(
                         color: isManualMode
                             ? (currentState
-                                ? BaseColors.neutral50
-                                : BaseColors.neutral900)
+                                ? BaseColors.neutral900
+                                : BaseColors.neutral50)
                             : (currentState
                                 ? BaseColors.neutral50
                                 : BaseColors.neutral900),
