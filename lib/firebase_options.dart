@@ -50,21 +50,22 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAyC_p9sD-Po1fjVSGpsPZHJThTFjHh_WQ',
-    appId: '1:956636555204:android:d0c1d9107030acc9c82691',
-    messagingSenderId: '956636555204',
-    projectId: 'hydroponic-monitoring-a4055',
-    databaseURL: 'https://hydroponic-monitoring-a4055-default-rtdb.firebaseio.com',
-    storageBucket: 'hydroponic-monitoring-a4055.appspot.com',
+    apiKey: 'AIzaSyAJ9fl15ccYhwT8b0p979vPMiSpSqjbVLM',
+    appId: '1:1073522099644:android:5bc086f0d831979c9557b9',
+    messagingSenderId: '1073522099644',
+    projectId: 'hydroponic-monitoring-sandbox',
+    databaseURL: 'https://hydroponic-monitoring-sandbox-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'hydroponic-monitoring-sandbox.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCoE-Lhrz7H7Qqj539o2ggDcm8QB52J5p8',
-    appId: '1:956636555204:ios:5588d1023a5e2cf6c82691',
-    messagingSenderId: '956636555204',
-    projectId: 'hydroponic-monitoring-a4055',
-    databaseURL: 'https://hydroponic-monitoring-a4055-default-rtdb.firebaseio.com',
-    storageBucket: 'hydroponic-monitoring-a4055.appspot.com',
+    apiKey: 'AIzaSyCdEwZjuLjwWiTzXBwZzI6QKjXHiL6BrH0',
+    appId: '1:1073522099644:ios:cfae0b578f7d6d479557b9',
+    messagingSenderId: '1073522099644',
+    projectId: 'hydroponic-monitoring-sandbox',
+    databaseURL: 'https://hydroponic-monitoring-sandbox-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'hydroponic-monitoring-sandbox.appspot.com',
     iosBundleId: 'com.example.hydroponic',
   );
+
 }

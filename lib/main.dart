@@ -32,12 +32,18 @@
 //   }
 // }
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hydroponic/firebase_options.dart';
 import 'package:hydroponic/pages/widgets/splash_screen_page.dart';
 import 'package:hydroponic/providers/button_providers';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   runApp(
     ChangeNotifierProvider(
       create: (context) => ButtonProviders(),

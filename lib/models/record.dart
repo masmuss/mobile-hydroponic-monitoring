@@ -1,27 +1,24 @@
-class Records {
+class Record {
   final String datetime;
   final num hum;
   final num ph;
-  final num tds1;
-  final num tds2;
+  final num tds;
   final num temp;
 
-  Records({
+  Record({
     required this.datetime,
     required this.hum,
     required this.ph,
-    required this.tds1,
-    required this.tds2,
+    required this.tds,
     required this.temp,
   });
 
-  factory Records.fromJson(Map<Object?, Object?> json) {
-    return Records(
+  factory Record.fromJson(Map<Object?, Object?> json) {
+    return Record(
       datetime: json['datetime'] as String,
       hum: json['hum'] as num,
       ph: json['ph'] as num,
-      tds1: json['tds1'] as num,
-      tds2: json['tds2'] as num,
+      tds: json['tds'] as num,
       temp: json['temp'] as num,
     );
   }
@@ -31,8 +28,7 @@ class Records {
       'datetime': datetime,
       'hum': hum,
       'ph': ph,
-      'tds1': tds1,
-      'tds2': tds2,
+      'tds': tds,
       'temp': temp,
     };
   }

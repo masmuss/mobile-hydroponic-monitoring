@@ -24,23 +24,23 @@ class _DeviceMonitoringState extends State<DeviceMonitoring> {
         const SizedBox(height: 20),
         const EnvironmentStatusCard(),
         const SizedBox(height: 20),
-        Text('Last Updated: ${widget.device.records.datetime}'),
+        // Text('Last Updated: ${widget.device.records.datetime}'),
         const SizedBox(height: 20),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                MonitoringInfo(
-                  humidity: widget.device.records.hum,
-                  temperature: widget.device.records.temp,
-                  ph: widget.device.records.ph,
-                  tds1: widget.device.records.tds1,
-                  tds2: widget.device.records.tds2,
-                ),
-                TemperatureHumidityGauge(
-                  humidity: widget.device.records.hum,
-                  temperature: widget.device.records.temp,
-                ),
+                // MonitoringInfo(
+                //   humidity: widget.device.records.hum,
+                //   temperature: widget.device.records.temp,
+                //   ph: widget.device.records.ph,
+                //   tds1: widget.device.records.tds1,
+                //   tds2: widget.device.records.tds2,
+                // ),
+                // TemperatureHumidityGauge(
+                //   humidity: widget.device.records.hum,
+                //   temperature: widget.device.records.temp,
+                // ),
               ],
             ),
           ),

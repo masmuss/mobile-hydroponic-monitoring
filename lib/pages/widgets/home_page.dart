@@ -219,6 +219,7 @@ class _HomepageState extends State<Homepage> {
                 itemBuilder: (context, index) {
                   final item = gridItems[index]; // Mendapatkan item dari list
                   return Container(
+                    padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: BaseColors.neutral100,
                       borderRadius: BorderRadius.circular(16),
