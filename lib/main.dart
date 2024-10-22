@@ -35,6 +35,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hydroponic/firebase_options.dart';
+import 'package:hydroponic/pages/widgets/main_page.dart';
 import 'package:hydroponic/pages/widgets/splash_screen_page.dart';
 import 'package:hydroponic/providers/button_providers';
 import 'package:provider/provider.dart';
@@ -58,9 +59,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreenPage(),
+      routes: {
+        '/device-monitoring-detail': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as int;
+          return MainPage(deviceId: args);
+        },
+      },
+      home: const SplashScreenPage(),
     );
   }
 }

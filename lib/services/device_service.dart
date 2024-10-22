@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:hydroponic/models/device.dart';
+import 'package:hydroponic/models/record.dart';
 import 'package:hydroponic/services/device_storage.dart';
 
 class DeviceService {
@@ -15,22 +16,45 @@ class DeviceService {
       List<Device> devices = [];
       DataSnapshot snapshot = event.snapshot;
 
-      for (DataSnapshot deviceSnapshot in snapshot.children) {
-        final deviceData = deviceSnapshot.value as Map<Object?, Object?>;
+      if (snapshot.exists) {
+        final deviceData = snapshot.value as Map<Object?, Object?>;
+        // log('deviceData1 $deviceData');
+
         final deviceDataMap =
             deviceData.map((key, value) => MapEntry(key as String, value));
 
-        Device device =
-            Device.fromJson(Map<String, dynamic>.from(deviceDataMap));
+        devices = deviceDataMap.entries
+            .map((entry) {
+              final deviceData = entry.value as Map<Object?, Object?>;
+              // log('deviceData2 $deviceData');
 
-        log(device.toString());
+              final deviceDataMap = deviceData
+                  .map((key, value) => MapEntry(key.toString(), value));
 
-        if (savedDeviceIds.contains(device.id)) {
-          devices.add(device);
-        }
+              return Device.fromJson(Map<String, Object?>.from(deviceDataMap));
+            })
+            .where((device) => savedDeviceIds.contains(device.id.toString()))
+            .toList();
       }
 
+      // log('devices $devices');
+
       return devices;
+    });
+  }
+
+  Stream<Record> getLatestRecordStream(int deviceId) {
+    return _deviceRef.child(deviceId.toString()).child('records').onValue.map((event) {
+      final recordData = event.snapshot.value as List<Object?>;
+
+      if (recordData.isNotEmpty) {
+        final recordMap = recordData.last as Map<Object?, Object?>;
+        final record = Record.fromJson(recordMap);
+
+        return record;
+      } else {
+        throw Exception('No records found');
+      }
     });
   }
 
@@ -60,9 +84,9 @@ class DeviceService {
     return null;
   }
 
-  Stream<Map<String, bool>> getDeviceConfigStream(String deviceId) {
+  Stream<Map<String, bool>> getDeviceConfigStream(int deviceId) {
     return _deviceRef
-        .child(deviceId)
+        .child(deviceId.toString())
         .child('configs')
         .onValue
         .map((event) {
@@ -77,9 +101,9 @@ class DeviceService {
   }
 
   Future<void> updateRelayConfig(
-      String deviceId, String relayKey, bool value) async {
+      int deviceId, String relayKey, bool value) async {
     try {
-      await _deviceRef.child(deviceId).child('configs').update({
+      await _deviceRef.child(deviceId.toString()).child('configs').update({
         relayKey: value,
       });
       log('Relay $relayKey updated to $value for device $deviceId');

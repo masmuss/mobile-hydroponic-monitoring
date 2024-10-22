@@ -84,17 +84,17 @@ class BottomNavBar extends StatelessWidget {
                 : BaseColors.neutral500,
             size: 24,
           ),
-          label: 'Predic',
+          label: 'Predict',
         ),
         BottomNavigationBarItem(
-          icon: ImageIcon(
-            const AssetImage('assets/images/icons/profile_icon.png'),
+          icon: Icon(
+            Icons.schedule,
             color: selectedIndex == 4
                 ? BaseColors.success500
                 : BaseColors.neutral500,
             size: 24,
           ),
-          label: 'Profile',
+          label: 'Schedule',
         ),
       ],
     );

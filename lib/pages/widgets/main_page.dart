@@ -4,9 +4,11 @@ import 'package:hydroponic/pages/widgets/analytic_page.dart';
 import 'package:hydroponic/pages/widgets/control_page.dart';
 import 'package:hydroponic/pages/widgets/home_page.dart';
 import 'package:hydroponic/pages/widgets/predict_page.dart';
+import 'package:hydroponic/pages/widgets/schedule_page.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  final int deviceId;
+  const MainPage({super.key, required this.deviceId});
 
   @override
   State<MainPage> createState() => _MainPage();
@@ -14,6 +16,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPage extends State<MainPage> {
   int _selectedIndex = 0;
+  List<Widget> pages = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -26,17 +29,16 @@ class _MainPage extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    pages = [
+      Homepage(deviceId: widget.deviceId),
+      const AnalyticPage(),
+      ControlPage(scrollController: ScrollController()),
+      const PredictPage(),
+      const SchedulePage(),
+    ];
   }
 
   final ScrollController scrollController = ScrollController();
-
-  final pages = [
-    const Homepage(),
-    const AnalyticPage(),
-    const PredictPage(),
-    ControlPage(scrollController: ScrollController()),
-    const AnalyticPage(),
-  ];
 
   @override
   Widget build(BuildContext context) {

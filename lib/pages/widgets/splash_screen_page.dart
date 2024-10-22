@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hydroponic/pages/common/colors.dart';
 import 'package:hydroponic/pages/common/styles.dart';
+import 'package:hydroponic/pages/devices_list.dart';
 import 'package:hydroponic/pages/widgets/home_page.dart';
 import 'package:hydroponic/pages/widgets/main_page.dart';
 
@@ -15,13 +16,12 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   void initState() {
     super.initState();
-    // Menggunakan Future.delayed untuk menunda navigasi ke HomePage.
     Future.delayed(
       const Duration(seconds: 3),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const MainPage(),
+          builder: (context) => const DevicesList(),
         ),
       ),
     );
@@ -128,7 +128,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                 ),
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Homepage()),
+                    MaterialPageRoute(builder: (context) => const DevicesList()),
                   );
                 },
                 child: const Text(

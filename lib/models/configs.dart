@@ -10,17 +10,17 @@ class Configs {
     required this.solvents,
   });
 
-  factory Configs.fromJson(Map<Object?, Object?> json) {
+  factory Configs.fromJson(Map<Object?, dynamic> json) {
     return Configs(
-      relays: Relays.fromJson(json['relays'] as Map<String, bool>),
-      solvents: Solvents.fromJson(json['solvents'] as Map<Object?, Object?>),
+      relays: Relays.fromJson(json['relays']),
+      solvents: Solvents.fromJson(json['solvents']),
     );
   }
 
-  Map<String, Object?> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'relays': relays,
-      'solvents': solvents.toJson(),
+      'solvents': solvents,
     };
   }
 }

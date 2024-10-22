@@ -14,7 +14,7 @@ class Solvents {
     );
   }
 
-  Map<String, Object?> toJson() {
+  Map<String, num> toJson() {
     return {
       'a': a,
       'b': b,

@@ -147,7 +147,7 @@ Future<void> showDeleteDeviceDialog(
   );
 
   if (confirmed != null && confirmed) {
-    await deviceStorage.removeDeviceId(device.id);
+    await deviceStorage.removeDeviceId(device.id.toString());
     onDeviceDeleted();
   }
 }

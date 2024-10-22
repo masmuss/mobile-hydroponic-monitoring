@@ -32,4 +32,10 @@ class Record {
       'temp': temp,
     };
   }
+
+  // Override the toString() method to log the data more easily
+  @override
+  String toString() {
+    return 'Record(datetime: $datetime, hum: $hum, ph: $ph, tds: $tds, temp: $temp)';
+  }
 }

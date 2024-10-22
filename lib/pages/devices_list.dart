@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hydroponic/models/device.dart';
+import 'package:hydroponic/pages/component/custom_appbar.dart';
 import 'package:hydroponic/services/device_service.dart';
 import 'package:hydroponic/services/device_storage.dart';
 import 'package:hydroponic/widgets/device_list_dialogs.dart';
@@ -21,9 +22,7 @@ class _DevicesListState extends State<DevicesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Devices List'),
-      ),
+      appBar: CustomAppBar(),
       body: _buildDeviceList(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
@@ -43,10 +42,10 @@ class _DevicesListState extends State<DevicesList> {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           log('Error loading devices: ${snapshot.error}');
-          return const Center(child: Text('Error loading devices'));
-        } else if (!snapshot.hasData ||
+          return Center(child: Text('Error loading devices: ${snapshot.error}'));
+        } else if (
+            !snapshot.hasData ||
             snapshot.data!.isEmpty ||
-            // ignore: unnecessary_null_comparison
             _deviceStorage.getDeviceIds() == null) {
           return const Center(child: Text('No devices available'));
         } else {
