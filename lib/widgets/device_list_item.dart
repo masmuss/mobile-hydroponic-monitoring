@@ -3,13 +3,11 @@ import 'package:hydroponic/models/device.dart';
 
 class DeviceListItem extends StatelessWidget {
   final Device device;
-  final VoidCallback onEdit;
   final VoidCallback onDelete;
 
   const DeviceListItem({
     super.key,
     required this.device,
-    required this.onEdit,
     required this.onDelete,
   });
 
@@ -21,10 +19,6 @@ class DeviceListItem extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: onEdit,
-          ),
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: onDelete,

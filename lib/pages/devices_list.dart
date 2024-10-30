@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hydroponic/models/device.dart';
 import 'package:hydroponic/pages/component/custom_appbar.dart';
+import 'package:hydroponic/pages/widgets/qr_scan.dart';
 import 'package:hydroponic/services/device_service.dart';
 import 'package:hydroponic/services/device_storage.dart';
 import 'package:hydroponic/widgets/device_list_dialogs.dart';
@@ -25,10 +26,9 @@ class _DevicesListState extends State<DevicesList> {
       appBar: CustomAppBar(),
       body: _buildDeviceList(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            showAddDeviceDialog(context, _deviceService, _deviceStorage, () {
-          setState(() {});
-        }),
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => QRScanPage(),
+        )),
         child: const Icon(Icons.add),
       ),
     );
@@ -42,11 +42,10 @@ class _DevicesListState extends State<DevicesList> {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           log('Error loading devices: ${snapshot.error}');
-          return Center(child: Text('Error loading devices: ${snapshot.error}'));
-        } else if (
-            !snapshot.hasData ||
-            snapshot.data!.isEmpty ||
-            _deviceStorage.getDeviceIds() == null) {
+          return Center(
+              child: Text('Error loading devices: ${snapshot.error}'));
+        } else if (!snapshot.hasData ||
+            snapshot.data!.isEmpty) {
           return const Center(child: Text('No devices available'));
         } else {
           final devices = snapshot.data!;
@@ -56,10 +55,6 @@ class _DevicesListState extends State<DevicesList> {
               final device = devices[index];
               return DeviceListItem(
                 device: device,
-                onEdit: () =>
-                    showEditDeviceDialog(context, _deviceService, device, () {
-                  setState(() {});
-                }),
                 onDelete: () =>
                     showDeleteDeviceDialog(context, _deviceStorage, device, () {
                   setState(() {});
