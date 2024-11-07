@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:hydroponic/models/configs.dart';
 import 'package:hydroponic/models/device.dart';
+import 'package:hydroponic/models/record.dart';
 import 'package:hydroponic/services/device_storage.dart';
+import 'package:intl/intl.dart';
 
 class DeviceService {
   final DatabaseReference _deviceRef = FirebaseDatabase.instance.ref('devices');
@@ -15,22 +18,47 @@ class DeviceService {
       List<Device> devices = [];
       DataSnapshot snapshot = event.snapshot;
 
-      for (DataSnapshot deviceSnapshot in snapshot.children) {
-        final deviceData = deviceSnapshot.value as Map<Object?, Object?>;
+      if (snapshot.exists) {
+        final deviceData = snapshot.value as Map<Object?, Object?>;
+        // log('deviceData1 $deviceData');
+
         final deviceDataMap =
             deviceData.map((key, value) => MapEntry(key as String, value));
 
-        Device device =
-            Device.fromJson(Map<String, dynamic>.from(deviceDataMap));
+        devices = deviceDataMap.entries
+            .map((entry) {
+              final deviceData = entry.value as Map<Object?, Object?>;
+              // log('deviceData2 $deviceData');
 
-        log(device.toString());
+              final deviceDataMap = deviceData
+                  .map((key, value) => MapEntry(key.toString(), value));
 
-        if (savedDeviceIds.contains(device.id)) {
-          devices.add(device);
-        }
+              return Device.fromJson(Map<String, Object?>.from(deviceDataMap));
+            })
+            .where((device) => savedDeviceIds.contains(device.id.toString()))
+            .toList();
       }
 
       return devices;
+    });
+  }
+
+  Stream<Record> getLatestRecordStream(int deviceId) {
+    return _deviceRef
+        .child(deviceId.toString())
+        .child('records')
+        .onValue
+        .map((event) {
+      final recordData = event.snapshot.value as List<Object?>;
+
+      if (recordData.isNotEmpty) {
+        final recordMap = recordData.last as Map<Object?, Object?>;
+        final record = Record.fromJson(recordMap);
+
+        return record;
+      } else {
+        throw Exception('No records found');
+      }
     });
   }
 
@@ -39,10 +67,9 @@ class DeviceService {
     return snapshot.exists;
   }
 
-  Stream<Device> getDeviceByIdStream(String deviceId) {
-    return _deviceRef.child(deviceId).onValue.map((event) {
+  Stream<Device> getDeviceByIdStream(int deviceId) {
+    return _deviceRef.child(deviceId.toString()).onValue.map((event) {
       final deviceData = event.snapshot.value as Map<Object?, Object?>;
-      log(deviceData.values.toString());
 
       final deviceDataMap =
           deviceData.map((key, value) => MapEntry(key as String, value));
@@ -60,9 +87,46 @@ class DeviceService {
     return null;
   }
 
-  Future<void> updateRelayConfig(String deviceId, String relayKey, bool value) async {
+  Stream<Configs> getDeviceConfigStream(int deviceId) {
+    return _deviceRef
+        .child(deviceId.toString())
+        .child('configs')
+        .onValue
+        .map((event) {
+      final configData = event.snapshot.value as Map<Object?, Object?>;
+
+      final configDataMap = configData.map((key, value) {
+        return MapEntry(key as String, value);
+      });
+
+      return Configs.fromJson(configDataMap);
+    });
+  }
+
+  Future<void> switchAutoMode(int deviceId, String value) async {
     try {
-      await _deviceRef.child(deviceId).child('configs').update({
+      await _deviceRef
+          .child(deviceId.toString())
+          .child('configs')
+          .update({
+        'mode': value,
+      });
+      log('Auto mode updated to $value for device $deviceId');
+    } catch (error) {
+      log('Failed to update auto mode for device $deviceId: $error');
+      rethrow;
+    }
+  }
+
+  Future<void> updateRelayConfig(
+      int deviceId, String relayKey, bool value) async {
+    try {
+      await _deviceRef
+          .child(deviceId.toString())
+          .child('configs')
+          .child('relays')
+          .child('manual')
+          .update({
         relayKey: value,
       });
       log('Relay $relayKey updated to $value for device $deviceId');

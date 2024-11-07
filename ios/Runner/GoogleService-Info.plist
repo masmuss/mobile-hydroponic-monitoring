@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCoE-Lhrz7H7Qqj539o2ggDcm8QB52J5p8</string>
+	<string>AIzaSyCdEwZjuLjwWiTzXBwZzI6QKjXHiL6BrH0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>956636555204</string>
+	<string>1073522099644</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.hydroponic</string>
 	<key>PROJECT_ID</key>
-	<string>hydroponic-monitoring-a4055</string>
+	<string>hydroponic-monitoring-sandbox</string>
 	<key>STORAGE_BUCKET</key>
-	<string>hydroponic-monitoring-a4055.appspot.com</string>
+	<string>hydroponic-monitoring-sandbox.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,8 +25,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:956636555204:ios:5588d1023a5e2cf6c82691</string>
+	<string>1:1073522099644:ios:cfae0b578f7d6d479557b9</string>
 	<key>DATABASE_URL</key>
-	<string>https://hydroponic-monitoring-a4055-default-rtdb.firebaseio.com</string>
+	<string>https://hydroponic-monitoring-sandbox-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
 </plist>

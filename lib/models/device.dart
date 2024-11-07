@@ -1,34 +1,38 @@
 import 'package:hydroponic/models/configs.dart';
-import 'package:hydroponic/models/records.dart';
+import 'package:hydroponic/models/record.dart';
 
 class Device {
-  final String id;
-  final String name;
-  final Configs configs;
-  final Records records;
+  Configs configs;
+  int id;
+  String name;
+  int recordCount;
+  dynamic records;
+  String target;
 
   Device({
+    required this.configs,
     required this.id,
     required this.name,
-    required this.configs,
-    required this.records
+    required this.recordCount,
+    required this.records,
+    required this.target,
   });
 
-  factory Device.fromJson(Map<String, dynamic> json) {
-    return Device(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      configs: Configs.fromJson(json['configs']),
-      records: Records.fromJson(json['records']),
-    );
-  }
+  factory Device.fromJson(Map<String, dynamic> json) => Device(
+    configs: Configs.fromJson(json["configs"]),
+    id: json["id"],
+    name: json["name"],
+    recordCount: json["record_count"],
+    records: json["records"],
+    target: json["target"],
+  );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'configs': configs.toJson(),
-      'records': records.toJson(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+    "configs": configs.toJson(),
+    "id": id,
+    "name": name,
+    "record_count": recordCount,
+    "records": records,
+    "target": target,
+  };
 }

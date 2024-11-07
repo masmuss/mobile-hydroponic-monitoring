@@ -1,35 +1,27 @@
+import 'package:flutter/foundation.dart';
+import 'package:hydroponic/models/relays.dart';
+import 'package:hydroponic/models/schedule.dart';
+
 class Configs {
-  final bool relay1;
-  final bool relay2;
-  final bool relay3;
-  final bool relay4;
-  final bool relay5;
+  String mode;
+  dynamic relays;
+  dynamic schedule;
 
   Configs({
-    required this.relay1,
-    required this.relay2,
-    required this.relay3,
-    required this.relay4,
-    required this.relay5,
+    required this.mode,
+    required this.relays,
+    required this.schedule,
   });
 
-  factory Configs.fromJson(Map<Object?, Object?> json) {
-    return Configs(
-      relay1: json['relay1'] as bool,
-      relay2: json['relay2'] as bool,
-      relay3: json['relay3'] as bool,
-      relay4: json['relay4'] as bool,
-      relay5: json['relay5'] as bool,
-    );
-  }
+  factory Configs.fromJson(Map<Object?, Object?> json) => Configs(
+    mode: json["mode"] as String,
+    relays: json["relays"] as dynamic,
+    schedule: json["schedule"] as dynamic,
+  );
 
-  Map<String, bool> toJson() {
-    return {
-      'relay1': relay1,
-      'relay2': relay2,
-      'relay3': relay3,
-      'relay4': relay4,
-      'relay5': relay5,
-    };
-  }
+  Map<Object?, dynamic> toJson() => {
+    "mode": mode,
+    "relays": relays.toJson(),
+    "schedule": schedule.toJson(),
+  };
 }
