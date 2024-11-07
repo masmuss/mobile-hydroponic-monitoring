@@ -1,26 +1,27 @@
+import 'package:flutter/foundation.dart';
 import 'package:hydroponic/models/relays.dart';
-import 'package:hydroponic/models/solvents.dart';
+import 'package:hydroponic/models/schedule.dart';
 
 class Configs {
-  final Relays relays;
-  final Solvents solvents;
+  String mode;
+  dynamic relays;
+  dynamic schedule;
 
   Configs({
+    required this.mode,
     required this.relays,
-    required this.solvents,
+    required this.schedule,
   });
 
-  factory Configs.fromJson(Map<Object?, dynamic> json) {
-    return Configs(
-      relays: Relays.fromJson(json['relays']),
-      solvents: Solvents.fromJson(json['solvents']),
-    );
-  }
+  factory Configs.fromJson(Map<Object?, Object?> json) => Configs(
+    mode: json["mode"] as String,
+    relays: json["relays"] as dynamic,
+    schedule: json["schedule"] as dynamic,
+  );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'relays': relays,
-      'solvents': solvents,
-    };
-  }
+  Map<Object?, dynamic> toJson() => {
+    "mode": mode,
+    "relays": relays.toJson(),
+    "schedule": schedule.toJson(),
+  };
 }

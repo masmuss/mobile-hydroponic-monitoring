@@ -82,7 +82,7 @@ class CustomGraph extends StatelessWidget {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 32, // Mengurangi ruang untuk teks bulan
+            reservedSize: 32,
             getTitlesWidget: (value, meta) {
               String? month = monthMap[value.toInt()];
               return Padding(
@@ -136,12 +136,12 @@ class CustomGraph extends StatelessWidget {
         LineChartBarData(
           spots: const [
             FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
+            // FlSpot(2.6, 2),
+            // FlSpot(4.9, 5),
+            // FlSpot(6.8, 3.1),
+            // FlSpot(8, 4),
+            // FlSpot(9.5, 3),
+            // FlSpot(11, 4),
           ],
           isCurved: true,
           gradient: LinearGradient(

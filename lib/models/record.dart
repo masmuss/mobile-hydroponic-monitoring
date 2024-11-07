@@ -1,41 +1,31 @@
 class Record {
-  final String datetime;
-  final num hum;
-  final num ph;
-  final num tds;
-  final num temp;
+  String datetime;
+  int fieldTds;
+  double ph;
+  int tankTds;
+  double waterTemp;
 
   Record({
     required this.datetime,
-    required this.hum,
+    required this.fieldTds,
     required this.ph,
-    required this.tds,
-    required this.temp,
+    required this.tankTds,
+    required this.waterTemp,
   });
 
-  factory Record.fromJson(Map<Object?, Object?> json) {
-    return Record(
-      datetime: json['datetime'] as String,
-      hum: json['hum'] as num,
-      ph: json['ph'] as num,
-      tds: json['tds'] as num,
-      temp: json['temp'] as num,
-    );
-  }
+  factory Record.fromJson(Map<Object?, Object?> json) => Record(
+    datetime: DateTime.parse(json["datetime"] as String).toString(),
+    fieldTds: json["field_tds"] as int,
+    ph: json["ph"] as double,
+    tankTds: json["tank_tds"] as int,
+    waterTemp: json["water_temp"] as double,
+  );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'datetime': datetime,
-      'hum': hum,
-      'ph': ph,
-      'tds': tds,
-      'temp': temp,
-    };
-  }
-
-  // Override the toString() method to log the data more easily
-  @override
-  String toString() {
-    return 'Record(datetime: $datetime, hum: $hum, ph: $ph, tds: $tds, temp: $temp)';
-  }
+  Map<Object?, Object?> toJson() => {
+    "datetime": datetime,
+    "field_tds": fieldTds,
+    "ph": ph,
+    "tank_tds": tankTds,
+    "water_temp": waterTemp,
+  };
 }

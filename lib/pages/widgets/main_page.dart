@@ -31,8 +31,8 @@ class _MainPage extends State<MainPage> {
     super.initState();
     pages = [
       Homepage(deviceId: widget.deviceId),
-      const AnalyticPage(),
-      ControlPage(scrollController: ScrollController()),
+      AnalyticPage(deviceId: widget.deviceId),
+      ControlPage(scrollController: ScrollController(), deviceId: widget.deviceId),
       const PredictPage(),
       const SchedulePage(),
     ];
@@ -55,7 +55,7 @@ class _MainPage extends State<MainPage> {
                 expand: false,
                 builder:
                     (BuildContext context, ScrollController scrollController) {
-                  return ControlPage(scrollController: scrollController);
+                  return ControlPage(scrollController: scrollController, deviceId: widget.deviceId);
                 },
               );
             },
@@ -71,10 +71,10 @@ class _MainPage extends State<MainPage> {
         ),
       ),
       bottomNavigationBar: BottomNavBar(
+        deviceId: widget.deviceId,
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
         onKonsultasi: () {
-          // Panggil ControlPage sebagai BottomSheet
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
@@ -83,7 +83,7 @@ class _MainPage extends State<MainPage> {
                 expand: false,
                 builder:
                     (BuildContext context, ScrollController scrollController) {
-                  return ControlPage(scrollController: scrollController);
+                  return ControlPage(scrollController: scrollController, deviceId: widget.deviceId);
                 },
               );
             },

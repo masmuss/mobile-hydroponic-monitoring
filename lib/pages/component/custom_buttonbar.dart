@@ -3,12 +3,14 @@ import 'package:hydroponic/pages/common/colors.dart';
 import 'package:hydroponic/pages/widgets/control_page.dart';
 
 class BottomNavBar extends StatelessWidget {
+  final int deviceId;
   final int selectedIndex;
   final ValueChanged<int> onItemTapped;
   final VoidCallback onKonsultasi;
 
   const BottomNavBar({
     super.key,
+    required this.deviceId,
     required this.selectedIndex,
     required this.onItemTapped,
     required this.onKonsultasi,
@@ -21,16 +23,15 @@ class BottomNavBar extends StatelessWidget {
       currentIndex: selectedIndex,
       onTap: (index) {
         if (index == 2) {
-          // Tampilkan ControlPage sebagai BottomSheet ketika tombol Control ditekan
           showModalBottomSheet(
             context: context,
-            isScrollControlled: true, // Agar BottomSheet bisa penuh
+            isScrollControlled: true,
             builder: (BuildContext context) {
               return DraggableScrollableSheet(
                 expand: false,
                 builder:
                     (BuildContext context, ScrollController scrollController) {
-                  return ControlPage(scrollController: scrollController);
+                  return ControlPage(scrollController: scrollController, deviceId: deviceId);
                 },
               );
             },

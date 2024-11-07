@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:hydroponic/models/configs.dart';
 import 'package:hydroponic/models/device.dart';
 import 'package:hydroponic/models/record.dart';
 import 'package:hydroponic/services/device_storage.dart';
+import 'package:intl/intl.dart';
 
 class DeviceService {
   final DatabaseReference _deviceRef = FirebaseDatabase.instance.ref('devices');
@@ -37,14 +39,16 @@ class DeviceService {
             .toList();
       }
 
-      // log('devices $devices');
-
       return devices;
     });
   }
 
   Stream<Record> getLatestRecordStream(int deviceId) {
-    return _deviceRef.child(deviceId.toString()).child('records').onValue.map((event) {
+    return _deviceRef
+        .child(deviceId.toString())
+        .child('records')
+        .onValue
+        .map((event) {
       final recordData = event.snapshot.value as List<Object?>;
 
       if (recordData.isNotEmpty) {
@@ -63,10 +67,9 @@ class DeviceService {
     return snapshot.exists;
   }
 
-  Stream<Device> getDeviceByIdStream(String deviceId) {
-    return _deviceRef.child(deviceId).onValue.map((event) {
+  Stream<Device> getDeviceByIdStream(int deviceId) {
+    return _deviceRef.child(deviceId.toString()).onValue.map((event) {
       final deviceData = event.snapshot.value as Map<Object?, Object?>;
-      log(deviceData.values.toString());
 
       final deviceDataMap =
           deviceData.map((key, value) => MapEntry(key as String, value));
@@ -84,7 +87,7 @@ class DeviceService {
     return null;
   }
 
-  Stream<Map<String, bool>> getDeviceConfigStream(int deviceId) {
+  Stream<Configs> getDeviceConfigStream(int deviceId) {
     return _deviceRef
         .child(deviceId.toString())
         .child('configs')
@@ -93,17 +96,37 @@ class DeviceService {
       final configData = event.snapshot.value as Map<Object?, Object?>;
 
       final configDataMap = configData.map((key, value) {
-        return MapEntry(key as String, value as bool);
+        return MapEntry(key as String, value);
       });
 
-      return Map<String, bool>.from(configDataMap);
+      return Configs.fromJson(configDataMap);
     });
+  }
+
+  Future<void> switchAutoMode(int deviceId, String value) async {
+    try {
+      await _deviceRef
+          .child(deviceId.toString())
+          .child('configs')
+          .update({
+        'mode': value,
+      });
+      log('Auto mode updated to $value for device $deviceId');
+    } catch (error) {
+      log('Failed to update auto mode for device $deviceId: $error');
+      rethrow;
+    }
   }
 
   Future<void> updateRelayConfig(
       int deviceId, String relayKey, bool value) async {
     try {
-      await _deviceRef.child(deviceId.toString()).child('configs').update({
+      await _deviceRef
+          .child(deviceId.toString())
+          .child('configs')
+          .child('relays')
+          .child('manual')
+          .update({
         relayKey: value,
       });
       log('Relay $relayKey updated to $value for device $deviceId');

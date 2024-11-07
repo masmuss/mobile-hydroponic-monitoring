@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hydroponic/models/device.dart';
+import 'package:hydroponic/pages/common/colors.dart';
 import 'package:hydroponic/pages/component/custom_appbar.dart';
 import 'package:hydroponic/pages/widgets/qr_scan.dart';
 import 'package:hydroponic/services/device_service.dart';
@@ -26,10 +27,11 @@ class _DevicesListState extends State<DevicesList> {
       appBar: CustomAppBar(),
       body: _buildDeviceList(context),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: BaseColors.success700,
         onPressed: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => QRScanPage(),
         )),
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add, color: BaseColors.gray100),
       ),
     );
   }
@@ -49,18 +51,27 @@ class _DevicesListState extends State<DevicesList> {
           return const Center(child: Text('No devices available'));
         } else {
           final devices = snapshot.data!;
-          return ListView.builder(
-            itemCount: devices.length,
-            itemBuilder: (context, index) {
-              final device = devices[index];
-              return DeviceListItem(
-                device: device,
-                onDelete: () =>
-                    showDeleteDeviceDialog(context, _deviceStorage, device, () {
-                  setState(() {});
-                }),
-              );
-            },
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 1.2
+              ),
+              itemCount: devices.length,
+              itemBuilder: (context, index) {
+                final device = devices[index];
+                return DeviceListItem(
+                  device: device,
+                  onDelete: () =>
+                      showDeleteDeviceDialog(context, _deviceStorage, device, () {
+                    setState(() {});
+                  }),
+                );
+              },
+            ),
           );
         }
       },
