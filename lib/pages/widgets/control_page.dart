@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hydroponic/models/configs.dart';
 import 'package:hydroponic/models/relays.dart';
@@ -26,16 +27,10 @@ class _ControlPageState extends State<ControlPage> {
   Future<void> _toggleRelay(String relayKey, bool value) async {
     try {
       await _deviceService.updateRelayConfig(widget.deviceId, relayKey, value);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text("$relayKey is turned ${value ? 'on' : 'off'}")),
-        );
-      }
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update $relayKey: $error')),
-      );
+      if (kDebugMode) {
+        print('Error updating relay config: $error');
+      }
     }
   }
 

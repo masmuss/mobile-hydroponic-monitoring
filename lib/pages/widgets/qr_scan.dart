@@ -43,6 +43,7 @@ class _QRScanPageState extends State<QRScanPage> with WidgetsBindingObserver {
               const SnackBar(content: Text('Device added successfully')),
             );
           }
+          dispose();
         } else {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(

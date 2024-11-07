@@ -10,7 +10,6 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  // Simpan data nutrisi untuk setiap fase
   final Map<String, Map<String, String>> nutrientData = {
     'Pembibitan': {'status': 'Nutrisi AB Mix', 'ppm': ''},
     'Tumbuh Daun': {'status': 'Nutrisi AB Mix', 'ppm': ''},
