@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hydroponic/pages/common/colors.dart';
 import 'package:hydroponic/pages/common/styles.dart';
@@ -30,6 +32,7 @@ class _HomepageState extends State<Homepage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
+              log(snapshot.error.toString());
               return const Center(child: Text('Error loading data'));
             } else if (snapshot.hasData) {
               return _buildContent(snapshot.data!);

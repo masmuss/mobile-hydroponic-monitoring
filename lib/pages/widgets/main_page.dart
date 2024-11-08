@@ -34,7 +34,7 @@ class _MainPage extends State<MainPage> {
       AnalyticPage(deviceId: widget.deviceId),
       ControlPage(scrollController: ScrollController(), deviceId: widget.deviceId),
       const PredictPage(),
-      const SchedulePage(),
+      SchedulePage(deviceId: widget.deviceId),
     ];
   }
 

@@ -1,8 +1,8 @@
 class Record {
   String datetime;
-  int fieldTds;
+  double fieldTds;
   double ph;
-  int tankTds;
+  double tankTds;
   double waterTemp;
 
   Record({
@@ -15,9 +15,9 @@ class Record {
 
   factory Record.fromJson(Map<Object?, Object?> json) => Record(
     datetime: DateTime.parse(json["datetime"] as String).toString(),
-    fieldTds: json["field_tds"] as int,
+    fieldTds: json["field_tds"] as double,
     ph: json["ph"] as double,
-    tankTds: json["tank_tds"] as int,
+    tankTds: json["tank_tds"] as double,
     waterTemp: json["water_temp"] as double,
   );
 

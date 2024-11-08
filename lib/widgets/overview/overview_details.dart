@@ -41,7 +41,7 @@ class OverviewDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '$waterTemperature °C',
+                '${waterTemperature.toStringAsFixed(1)} °C',
                 style: const TextStyle(
                     color: Colors.white,
                     fontSize: 36,

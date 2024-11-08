@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hydroponic/models/device.dart';
+import 'package:hydroponic/models/record.dart';
 import 'package:hydroponic/pages/common/colors.dart';
 import 'package:hydroponic/pages/common/styles.dart';
 import 'package:hydroponic/pages/component/monitoring_graph.dart';
@@ -83,21 +84,19 @@ class _AnalyticPageState extends State<AnalyticPage> {
               }).toList();
 
               final waterTemperature = data.map((record) {
-                return record['water_temp'];
+                return num.parse(record['water_temp'].toStringAsFixed(1));
               }).toList();
 
               final ph = data.map((record) {
-                return record['ph'];
+                return num.parse(record['ph'].toStringAsFixed(1));
               }).toList();
 
               final fieldTds = data.map((record) {
-                var tds = record['field_tds'] as int;
-                return tds.floor();
+                return record['field_tds'].floor();
               }).toList();
 
               final tankTds = data.map((record) {
-                var tds = record['tank_tds'] as int;
-                return tds.floor();
+                return record['tank_tds'].floor();
               }).toList();
 
               return Column(

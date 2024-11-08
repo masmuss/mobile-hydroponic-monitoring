@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:hydroponic/models/configs.dart';
 import 'package:hydroponic/models/device.dart';
 import 'package:hydroponic/models/record.dart';
+import 'package:hydroponic/models/schedule.dart';
 import 'package:hydroponic/services/device_storage.dart';
 import 'package:intl/intl.dart';
 
@@ -103,12 +104,26 @@ class DeviceService {
     });
   }
 
+  Stream<Schedule> getDeviceScheduleStream(int deviceId) {
+    return _deviceRef
+        .child(deviceId.toString())
+        .child('configs')
+        .child('schedule')
+        .onValue
+        .map((event) {
+      final scheduleData = event.snapshot.value as Map<Object?, Object?>;
+
+      final scheduleDataMap = scheduleData.map((key, value) {
+        return MapEntry(key as String, value);
+      });
+
+      return Schedule.fromJson(scheduleDataMap);
+    });
+  }
+
   Future<void> switchAutoMode(int deviceId, String value) async {
     try {
-      await _deviceRef
-          .child(deviceId.toString())
-          .child('configs')
-          .update({
+      await _deviceRef.child(deviceId.toString()).child('configs').update({
         'mode': value,
       });
       log('Auto mode updated to $value for device $deviceId');
@@ -132,6 +147,21 @@ class DeviceService {
       log('Relay $relayKey updated to $value for device $deviceId');
     } catch (error) {
       log('Failed to update relay $relayKey for device $deviceId: $error');
+      rethrow;
+    }
+  }
+
+  Future<void> setDeviceSchedule(
+      int deviceId, String scheduleKey, double value) async {
+    try {
+      await _deviceRef
+          .child(deviceId.toString())
+          .child('configs')
+          .child('schedule')
+          .update({
+        scheduleKey: value,
+      });
+    } catch (error) {
       rethrow;
     }
   }
