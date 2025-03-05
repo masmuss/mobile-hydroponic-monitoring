@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hydroponic/pages/common/colors.dart';
-import 'package:hydroponic/widgets/overview/overview_info_tile.dart';
 
 class OverviewDetails extends StatelessWidget {
-  final double waterTemperature;
-  final double acidity;
-  final double tankTds;
-  final double fieldTds;
+  final Map<String, num> sensorData;
 
   const OverviewDetails({
     super.key,
-    required this.waterTemperature,
-    required this.acidity,
-    required this.tankTds,
-    required this.fieldTds,
+    required this.sensorData,
   });
 
   @override
@@ -27,54 +20,58 @@ class OverviewDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header Overview
           Row(
             children: [
-              const Icon(Icons.water_drop, color: Colors.white),
+              const Icon(Icons.sensors, color: Colors.white),
               const SizedBox(width: 8.0),
-              Text(
-                'Water Temperature',
-                style: const TextStyle(color: Colors.white, fontSize: 16.0),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '$waterTemperature °C',
-                style: const TextStyle(
+              const Text(
+                'Sensor Data',
+                style: TextStyle(
                     color: Colors.white,
-                    fontSize: 36,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.bold),
               ),
-              Icon(
-                Icons.thermostat,
-                size: 64,
-                color: BaseColors.gray100,
-              )
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 8),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: BaseColors.success700,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                OverviewInfoTile(
-                    label: 'Acidity (pH)',
-                    value: acidity.toStringAsFixed(1)),
-                OverviewInfoTile(
-                    label: 'Tank TDS (ppm)',
-                    value: tankTds.toStringAsFixed(0)),
-                OverviewInfoTile(
-                    label: 'Field TDS (ppm)',
-                    value: fieldTds.toStringAsFixed(0)),
-              ],
-            ),
+          const SizedBox(height: 12.0),
+
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: sensorData.length,
+            itemBuilder: (context, index) {
+              final sensorKey = sensorData.keys.elementAt(index);
+              final sensorValue = sensorData[sensorKey];
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        sensorKey.replaceAll('_', ' '),
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 16.0),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        sensorValue!.toStringAsFixed(1),
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),

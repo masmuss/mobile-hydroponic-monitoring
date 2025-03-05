@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hydroponic/pages/common/colors.dart';
 import 'package:hydroponic/pages/common/styles.dart';
@@ -30,6 +32,7 @@ class _HomepageState extends State<Homepage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
+              log(snapshot.error.toString());
               return const Center(child: Text('Error loading data'));
             } else if (snapshot.hasData) {
               return _buildContent(snapshot.data!);
@@ -63,23 +66,17 @@ class _HomepageState extends State<Homepage> {
             : 'Loading...';
 
         return OverviewCard(
-          weatherInfo: WeatherInfo(
-            date: formattedDate,
-            time: formattedTime,
-            waterTemperature: record.waterTemp,
-            acidity: record.ph,
-            tankTds: record.tankTds.toDouble(),
-            fieldTds: record.fieldTds.toDouble(),
-          ),
+          sensorInfo: SensorInfo(
+              date: formattedDate,
+              time: formattedTime,
+              sensorData: record.sensorData),
         );
       },
     );
   }
 
   Widget _buildLastUpdated(Record record) {
-    final DateTime lastUpdated = DateTime.parse(
-      record.datetime
-    );
+    final DateTime lastUpdated = DateTime.parse(record.datetime);
 
     return Container(
       height: 50,
@@ -90,7 +87,7 @@ class _HomepageState extends State<Homepage> {
       ),
       child: Center(
         child: Text(
-          'Last Updated: ${lastUpdated.hour}:${lastUpdated.minute} ${lastUpdated.timeZoneName}',
+          'Last Updated: ${lastUpdated.day}/${lastUpdated.month}/${lastUpdated.year} ${lastUpdated.hour}:${lastUpdated.minute} ${lastUpdated.timeZoneName}',
           style: AppStyle.appTextStyles.largeNormalBold!.copyWith(
             color: BaseColors.neutral500,
           ),

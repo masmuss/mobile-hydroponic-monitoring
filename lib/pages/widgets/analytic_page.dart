@@ -57,184 +57,110 @@ class _AnalyticPageState extends State<AnalyticPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
         child: StreamBuilder(
-            stream: _deviceService.getDeviceByIdStream(widget.deviceId),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+          stream: _deviceService.getDeviceByIdStream(widget.deviceId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-              if (snapshot.hasError) {
-                return const Center(
-                  child: Text('Error fetching data'),
-                );
-              }
+            if (snapshot.hasError) {
+              return const Center(child: Text('Error fetching data'));
+            }
 
-              final device = snapshot.data as Device;
-              final data =
-                  filterRecordsByDate(device.records, getTodayDateString());
+            final device = snapshot.data as Device;
+            final data =
+                filterRecordsByDate(device.records, getTodayDateString());
 
-              final time = data.map((record) {
-                return record['datetime']
-                    .toString()
-                    .split(' ')[1]
-                    .substring(0, 5);
-              }).toList();
+            Map<String, List<num>> sensorDataMap = {};
+            List<String> timestamps = [];
 
-              final waterTemperature = data.map((record) {
-                return record['water_temp'];
-              }).toList();
+            for (var record in data) {
+              final time =
+                  record['datetime'].toString().split(' ')[1].substring(0, 5);
+              timestamps.add(time);
 
-              final ph = data.map((record) {
-                return record['ph'];
-              }).toList();
+              record.forEach((key, value) {
+                if (key != "datetime" && value is num) {
+                  sensorDataMap.putIfAbsent(key, () => []);
+                  sensorDataMap[key]!.add(value);
+                }
+              });
+            }
 
-              final fieldTds = data.map((record) {
-                var tds = record['field_tds'] as int;
-                return tds.floor();
-              }).toList();
-
-              final tankTds = data.map((record) {
-                var tds = record['tank_tds'] as int;
-                return tds.floor();
-              }).toList();
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Graphic History',
-                        style: AppStyle.appTextStyles.title3!.copyWith(
-                          color: BaseColors.neutral950,
-                        ),
-                      ),
-                      Text(
-                        'See melon health statistics',
-                        style:
-                            AppStyle.appTextStyles.smallNormalReguler!.copyWith(
-                          color: BaseColors.neutral400,
-                        ),
-                      ),
-                    ],
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Graphic History',
+                  style: AppStyle.appTextStyles.title3!.copyWith(
+                    color: BaseColors.neutral950,
                   ),
-                  // const SizedBox(height: 30),
-                  Row(
-                    children: [
-                      // Text(
-                      //   'Step',
-                      //   style: AppStyle.appTextStyles.largeNoneMedium!.copyWith(
-                      //     color: BaseColors.neutral600,
-                      //   ),
-                      // ),
-                      // const Spacer(),
-                      // CompositedTransformTarget(
-                      //   link: _layerLink,
-                      //   child: GestureDetector(
-                      //     onTap: () {
-                      //       _toggleDropdown();
-                      //     },
-                      //     child: Container(
-                      //       width: 150,
-                      //       padding: const EdgeInsets.symmetric(
-                      //           horizontal: 16, vertical: 8),
-                      //       decoration: BoxDecoration(
-                      //         color: BaseColors.success100,
-                      //         borderRadius: BorderRadius.circular(20),
-                      //       ),
-                      //       child: Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Text(
-                      //             selectedMonth,
-                      //             style: AppStyle.appTextStyles.largeNoneMedium!
-                      //                 .copyWith(
-                      //               color: BaseColors.neutral600,
-                      //             ),
-                      //           ),
-                      //           Icon(
-                      //             Icons.arrow_drop_down,
-                      //             color: BaseColors.neutral600,
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
+                ),
+                Text(
+                  'See device health statistics',
+                  style: AppStyle.appTextStyles.smallNormalReguler!.copyWith(
+                    color: BaseColors.neutral400,
                   ),
-                  const SizedBox(height: 20),
-                  Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: BaseColors.neutral200,
-                      borderRadius: BorderRadius.circular(16),
+                ),
+                const SizedBox(height: 20),
+                _buildLegend(),
+                const SizedBox(height: 20),
+                ...sensorDataMap.entries.map((entry) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: MonitoringGraph(
+                      axisTitle: entry.key.replaceAll('_', ' '),
+                      title: entry.key.replaceAll('_', ' '),
+                      timestamp: timestamps,
+                      data: entry.value,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.circle,
-                                  color: BaseColors.success500, size: 10),
-                              const SizedBox(width: 8),
-                              const Text('Normal'),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(Icons.circle,
-                                  color: BaseColors.danger500, size: 10),
-                              const SizedBox(width: 8),
-                              const Text('High'),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(Icons.circle,
-                                  color: BaseColors.warning500, size: 10),
-                              const SizedBox(width: 8),
-                              const Text('Low'),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  MonitoringGraph(
-                      title: "Water Temperature",
-                      axisTitle: "Celcius",
-                      timestamp: time,
-                      data: waterTemperature),
-                  const SizedBox(height: 20),
-                  MonitoringGraph(
-                      title: "Acidity",
-                      axisTitle: "pH",
-                      timestamp: time,
-                      data: ph),
-                  const SizedBox(height: 20),
-                  MonitoringGraph(
-                      title: "Tank TDS",
-                      axisTitle: "ppm",
-                      timestamp: time,
-                      data: tankTds),
-                  const SizedBox(height: 20),
-                  MonitoringGraph(
-                      title: "Field TDS",
-                      axisTitle: "ppm",
-                      timestamp: time,
-                      data: fieldTds),
-                ],
-              );
-            }),
+                  );
+                }).toList(),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  /// Fungsi untuk menampilkan legend
+  Widget _buildLegend() {
+    return Container(
+      width: double.infinity,
+      height: 50,
+      decoration: BoxDecoration(
+        color: BaseColors.neutral200,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.circle, color: BaseColors.success500, size: 10),
+                const SizedBox(width: 8),
+                const Text('Normal'),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.circle, color: BaseColors.danger500, size: 10),
+                const SizedBox(width: 8),
+                const Text('High'),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.circle, color: BaseColors.warning500, size: 10),
+                const SizedBox(width: 8),
+                const Text('Low'),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MonitoringGraph extends StatefulWidget {
@@ -46,14 +45,14 @@ class _MonitoringGraphState extends State<MonitoringGraph> {
               primaryYAxis: NumericAxis(
                 title: AxisTitle(text: widget.axisTitle),
               ),
-              series: <FastLineSeries<Record, String>>[
-                FastLineSeries<Record, String>(
+              series: <FastLineSeries<GraphData, String>>[
+                FastLineSeries<GraphData, String>(
                   dataSource: [
                     for (int i = 0; i < widget.timestamp.length; i++)
-                      Record(widget.timestamp[i], widget.data[i])
+                      GraphData(widget.timestamp[i], widget.data[i])
                   ],
-                  xValueMapper: (Record record, _) => record.time,
-                  yValueMapper: (Record record, _) => record.data,
+                  xValueMapper: (GraphData graphData, _) => graphData.time,
+                  yValueMapper: (GraphData graphData, _) => graphData.data,
                   markerSettings: MarkerSettings(
                       isVisible: true, shape: DataMarkerType.circle),
                   dataLabelSettings:
@@ -68,8 +67,8 @@ class _MonitoringGraphState extends State<MonitoringGraph> {
   }
 }
 
-class Record {
-  Record(this.time, this.data);
+class GraphData {
+  GraphData(this.time, this.data);
 
   final String time;
   final dynamic data;
