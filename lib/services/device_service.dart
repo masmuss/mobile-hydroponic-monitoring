@@ -1,109 +1,86 @@
 import 'dart:developer';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:hydroponic/models/configs.dart';
 import 'package:hydroponic/models/device.dart';
 import 'package:hydroponic/models/record.dart';
 import 'package:hydroponic/models/schedule.dart';
 import 'package:hydroponic/services/device_storage.dart';
-import 'package:intl/intl.dart';
 
 class DeviceService {
   final DatabaseReference _deviceRef = FirebaseDatabase.instance.ref('devices');
   final DeviceStorage _deviceStorage = DeviceStorage();
 
+  /// Stream daftar perangkat yang disimpan
   Stream<List<Device>> getDevicesStream() async* {
     List<String> savedDeviceIds = await _deviceStorage.getDeviceIds();
 
     yield* _deviceRef.onValue.map((event) {
-      List<Device> devices = [];
-      DataSnapshot snapshot = event.snapshot;
+      final snapshot = event.snapshot;
+      if (!snapshot.exists) return [];
 
-      if (snapshot.exists) {
-        final deviceData = snapshot.value as Map<Object?, Object?>;
-        // log('deviceData1 $deviceData');
-
-        final deviceDataMap =
-            deviceData.map((key, value) => MapEntry(key as String, value));
-
-        devices = deviceDataMap.entries
-            .map((entry) {
-              final deviceData = entry.value as Map<Object?, Object?>;
-              // log('deviceData2 $deviceData');
-
-              final deviceDataMap = deviceData
-                  .map((key, value) => MapEntry(key.toString(), value));
-
-              return Device.fromJson(Map<String, Object?>.from(deviceDataMap));
-            })
-            .where((device) => savedDeviceIds.contains(device.id.toString()))
-            .toList();
-      }
-
-      return devices;
+      final devices = _parseDevices(snapshot.value);
+      return devices
+          .where((device) => savedDeviceIds.contains(device.id.toString()))
+          .toList();
     });
   }
 
+  /// Stream data terakhir dari sensor perangkat tertentu
   Stream<Record> getLatestRecordStream(int deviceId) {
     return _deviceRef
         .child(deviceId.toString())
         .child('records')
         .onValue
         .map((event) {
-      final recordData = event.snapshot.value as List<Object?>;
+      final recordData = event.snapshot.value;
+      if (recordData == null) throw Exception('No records found');
 
-      if (recordData.isNotEmpty) {
-        final recordMap = recordData.last as Map<Object?, Object?>;
-        final record = Record.fromJson(recordMap);
+      final List<dynamic> records = recordData as List<dynamic>;
+      if (records.isEmpty) throw Exception('No records found');
 
-        return record;
-      } else {
-        throw Exception('No records found');
-      }
+      return Record.fromJson(Map<String, dynamic>.from(records.last));
     });
   }
 
+  /// Mengecek apakah perangkat dengan ID tertentu ada di Firebase
   Future<bool> isDeviceIdExists(String deviceId) async {
-    DataSnapshot snapshot = await _deviceRef.child(deviceId).get();
+    final snapshot = await _deviceRef.child(deviceId).get();
     return snapshot.exists;
   }
 
+  /// Stream satu perangkat berdasarkan ID
   Stream<Device> getDeviceByIdStream(int deviceId) {
     return _deviceRef.child(deviceId.toString()).onValue.map((event) {
-      final deviceData = event.snapshot.value as Map<Object?, Object?>;
+      final data = event.snapshot.value;
+      if (data == null) throw Exception('Device not found');
 
-      final deviceDataMap =
-          deviceData.map((key, value) => MapEntry(key as String, value));
-
-      return Device.fromJson(Map<String, dynamic>.from(deviceDataMap));
+      return Device.fromJson(Map<String, dynamic>.from(data as Map));
     });
   }
 
+  /// Mengambil konfigurasi perangkat secara async
   Future<Map<String, dynamic>?> getDeviceConfig(String deviceId) async {
-    DataSnapshot snapshot =
-        await _deviceRef.child(deviceId).child('configs').get();
-    if (snapshot.exists) {
-      return Map<String, dynamic>.from(snapshot.value as Map<Object?, Object?>);
-    }
-    return null;
+    final snapshot = await _deviceRef.child(deviceId).child('configs').get();
+    return snapshot.exists
+        ? Map<String, dynamic>.from(snapshot.value as Map)
+        : null;
   }
 
+  /// Stream konfigurasi perangkat
   Stream<Configs> getDeviceConfigStream(int deviceId) {
     return _deviceRef
         .child(deviceId.toString())
         .child('configs')
         .onValue
         .map((event) {
-      final configData = event.snapshot.value as Map<Object?, Object?>;
+      final data = event.snapshot.value;
+      if (data == null) throw Exception('Configuration not found');
 
-      final configDataMap = configData.map((key, value) {
-        return MapEntry(key as String, value);
-      });
-
-      return Configs.fromJson(configDataMap);
+      return Configs.fromJson(Map<String, dynamic>.from(data as Map));
     });
   }
 
+  /// Stream jadwal perangkat
   Stream<Schedule> getDeviceScheduleStream(int deviceId) {
     return _deviceRef
         .child(deviceId.toString())
@@ -111,57 +88,61 @@ class DeviceService {
         .child('schedule')
         .onValue
         .map((event) {
-      final scheduleData = event.snapshot.value as Map<Object?, Object?>;
+      final data = event.snapshot.value;
+      if (data == null) throw Exception('Schedule not found');
 
-      final scheduleDataMap = scheduleData.map((key, value) {
-        return MapEntry(key as String, value);
-      });
-
-      return Schedule.fromJson(scheduleDataMap);
+      return Schedule.fromJson(Map<String, dynamic>.from(data as Map));
     });
   }
 
+  /// Mengubah mode otomatis/manual perangkat
   Future<void> switchAutoMode(int deviceId, String value) async {
-    try {
-      await _deviceRef.child(deviceId.toString()).child('configs').update({
-        'mode': value,
-      });
-      log('Auto mode updated to $value for device $deviceId');
-    } catch (error) {
-      log('Failed to update auto mode for device $deviceId: $error');
-      rethrow;
-    }
+    await _updateDeviceConfig(deviceId, {'mode': value});
+    log('Auto mode updated to $value for device $deviceId');
   }
 
+  /// Mengupdate konfigurasi relay manual perangkat
   Future<void> updateRelayConfig(
       int deviceId, String relayKey, bool value) async {
-    try {
-      await _deviceRef
-          .child(deviceId.toString())
-          .child('configs')
-          .child('relays')
-          .child('manual')
-          .update({
-        relayKey: value,
-      });
-      log('Relay $relayKey updated to $value for device $deviceId');
-    } catch (error) {
-      log('Failed to update relay $relayKey for device $deviceId: $error');
-      rethrow;
-    }
+    await _updateDeviceConfig(deviceId, {
+      'relays/manual/$relayKey': value,
+    });
+    log('Relay $relayKey updated to $value for device $deviceId');
   }
 
+  /// Mengubah jadwal perangkat
   Future<void> setDeviceSchedule(
       int deviceId, String scheduleKey, double value) async {
+    await _updateDeviceConfig(deviceId, {
+      'schedule/$scheduleKey': value,
+    });
+    log('Schedule $scheduleKey updated to $value for device $deviceId');
+  }
+
+  // ======================== HELPER METHODS ========================
+
+  /// Parsing daftar perangkat dari Firebase
+  List<Device> _parseDevices(dynamic data) {
+    if (data == null) return [];
+
+    final Map<String, dynamic> deviceMap =
+        Map<String, dynamic>.from(data as Map);
+    return deviceMap.entries.map((entry) {
+      final deviceData = Map<String, dynamic>.from(entry.value as Map);
+      return Device.fromJson(deviceData);
+    }).toList();
+  }
+
+  /// Helper untuk memperbarui konfigurasi perangkat di Firebase
+  Future<void> _updateDeviceConfig(
+      int deviceId, Map<String, dynamic> updates) async {
     try {
       await _deviceRef
           .child(deviceId.toString())
           .child('configs')
-          .child('schedule')
-          .update({
-        scheduleKey: value,
-      });
+          .update(updates);
     } catch (error) {
+      log('Failed to update device $deviceId: $error');
       rethrow;
     }
   }

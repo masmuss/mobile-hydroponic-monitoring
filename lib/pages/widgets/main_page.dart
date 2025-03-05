@@ -8,6 +8,7 @@ import 'package:hydroponic/pages/widgets/schedule_page.dart';
 
 class MainPage extends StatefulWidget {
   final int deviceId;
+
   const MainPage({super.key, required this.deviceId});
 
   @override
@@ -32,7 +33,8 @@ class _MainPage extends State<MainPage> {
     pages = [
       Homepage(deviceId: widget.deviceId),
       AnalyticPage(deviceId: widget.deviceId),
-      ControlPage(scrollController: ScrollController(), deviceId: widget.deviceId),
+      ControlPage(
+          scrollController: ScrollController(), deviceId: widget.deviceId),
       const PredictPage(),
       SchedulePage(deviceId: widget.deviceId),
     ];
@@ -55,7 +57,9 @@ class _MainPage extends State<MainPage> {
                 expand: false,
                 builder:
                     (BuildContext context, ScrollController scrollController) {
-                  return ControlPage(scrollController: scrollController, deviceId: widget.deviceId);
+                  return ControlPage(
+                      scrollController: scrollController,
+                      deviceId: widget.deviceId);
                 },
               );
             },
@@ -83,7 +87,9 @@ class _MainPage extends State<MainPage> {
                 expand: false,
                 builder:
                     (BuildContext context, ScrollController scrollController) {
-                  return ControlPage(scrollController: scrollController, deviceId: widget.deviceId);
+                  return ControlPage(
+                      scrollController: scrollController,
+                      deviceId: widget.deviceId);
                 },
               );
             },

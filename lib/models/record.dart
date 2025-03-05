@@ -1,31 +1,31 @@
 class Record {
   String datetime;
-  double fieldTds;
-  double ph;
-  double tankTds;
-  double waterTemp;
+  Map<String, num> sensorData;
 
   Record({
     required this.datetime,
-    required this.fieldTds,
-    required this.ph,
-    required this.tankTds,
-    required this.waterTemp,
+    required this.sensorData,
   });
 
-  factory Record.fromJson(Map<Object?, Object?> json) => Record(
-    datetime: DateTime.parse(json["datetime"] as String).toString(),
-    fieldTds: json["field_tds"] as double,
-    ph: json["ph"] as double,
-    tankTds: json["tank_tds"] as double,
-    waterTemp: json["water_temp"] as double,
-  );
+  factory Record.fromJson(Map<Object?, Object?> json) {
+    Map<String, num> sensorMap = {};
 
-  Map<Object?, Object?> toJson() => {
-    "datetime": datetime,
-    "field_tds": fieldTds,
-    "ph": ph,
-    "tank_tds": tankTds,
-    "water_temp": waterTemp,
-  };
+    json.forEach((key, value) {
+      if (key is String && value is num && key != "datetime") {
+        sensorMap[key] = value;
+      }
+    });
+
+    return Record(
+      datetime: json["datetime"] as String,
+      sensorData: sensorMap,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "datetime": datetime,
+      ...sensorData,
+    };
+  }
 }

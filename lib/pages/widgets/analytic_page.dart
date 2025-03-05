@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hydroponic/models/device.dart';
 import 'package:hydroponic/models/record.dart';
@@ -76,6 +78,7 @@ class _AnalyticPageState extends State<AnalyticPage> {
               final data =
                   filterRecordsByDate(device.records, getTodayDateString());
 
+
               final time = data.map((record) {
                 return record['datetime']
                     .toString()
@@ -84,18 +87,30 @@ class _AnalyticPageState extends State<AnalyticPage> {
               }).toList();
 
               final waterTemperature = data.map((record) {
+                if (record['water_temp'] == null) {
+                  return 0;
+                }
                 return num.parse(record['water_temp'].toStringAsFixed(1));
               }).toList();
 
               final ph = data.map((record) {
+                if (record['ph'] == null) {
+                  return 0;
+                }
                 return num.parse(record['ph'].toStringAsFixed(1));
               }).toList();
 
               final fieldTds = data.map((record) {
+                if (record['field_tds'] == null) {
+                  return 0;
+                }
                 return record['field_tds'].floor();
               }).toList();
 
               final tankTds = data.map((record) {
+                if (record['tank_tds'] == null) {
+                  return 0;
+                }
                 return record['tank_tds'].floor();
               }).toList();
 

@@ -4,9 +4,9 @@ import 'package:hydroponic/widgets/overview/overview_details.dart';
 import 'package:hydroponic/widgets/overview/overview_header.dart';
 
 class OverviewCard extends StatelessWidget {
-  final WeatherInfo weatherInfo;
+  final SensorInfo sensorInfo;
 
-  const OverviewCard({super.key, required this.weatherInfo});
+  const OverviewCard({super.key, required this.sensorInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -17,34 +17,22 @@ class OverviewCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          OverviewHeader(date: weatherInfo.date, time: weatherInfo.time),
-          OverviewDetails(
-            waterTemperature: weatherInfo.waterTemperature,
-            acidity: weatherInfo.acidity,
-            tankTds: weatherInfo.tankTds,
-            fieldTds: weatherInfo.fieldTds,
-          ),
+          OverviewHeader(date: sensorInfo.date, time: sensorInfo.time),
+          OverviewDetails(sensorData: sensorInfo.sensorData),
         ],
       ),
     );
   }
 }
 
-class WeatherInfo {
+class SensorInfo {
   final String date;
   final String time;
-  final double waterTemperature;
-  final double acidity;
-  final double tankTds;
-  final double fieldTds;
+  final Map<String, num> sensorData;
 
-  WeatherInfo({
+  SensorInfo({
     required this.date,
     required this.time,
-    required this.waterTemperature,
-    required this.acidity,
-    required this.tankTds,
-    required this.fieldTds,
+    required this.sensorData,
   });
 }
-

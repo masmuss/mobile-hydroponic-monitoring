@@ -89,13 +89,13 @@ class BottomNavBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.schedule,
+            Icons.settings_outlined,
             color: selectedIndex == 4
                 ? BaseColors.success500
                 : BaseColors.neutral500,
             size: 24,
           ),
-          label: 'Schedule',
+          label: 'Setpoint',
         ),
       ],
     );
