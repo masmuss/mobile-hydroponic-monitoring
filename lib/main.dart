@@ -4,6 +4,7 @@ import 'package:hydroponic/firebase_options.dart';
 import 'package:hydroponic/pages/widgets/main_page.dart';
 import 'package:hydroponic/pages/widgets/splash_screen_page.dart';
 import 'package:hydroponic/providers/button_providers';
+import 'package:hydroponic/services/notification.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
+
+  await NotificationService().requestNotificationPermission();
+  NotificationService().init();
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => ButtonProviders(),
