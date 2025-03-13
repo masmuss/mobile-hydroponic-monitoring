@@ -24,6 +24,7 @@ class _ControlPageState extends State<ControlPage> {
   final DeviceService _deviceService = DeviceService();
   bool isManualMode = true;
 
+  /// Fungsi untuk mengubah status relay di Firebase
   Future<void> _toggleRelay(String relayKey, bool value) async {
     try {
       await _deviceService.updateRelayConfig(widget.deviceId, relayKey, value);
@@ -34,6 +35,7 @@ class _ControlPageState extends State<ControlPage> {
     }
   }
 
+  /// Mengubah mode antara Manual & Auto
   void _swapMode() {
     setState(() {
       isManualMode = !isManualMode;
@@ -60,8 +62,6 @@ class _ControlPageState extends State<ControlPage> {
 
           final config = snapshot.data!;
           final relays = Relays.fromJson(config.relays);
-          final manual = Auto.fromJson(relays.manual);
-          final auto = Auto.fromJson(relays.auto);
 
           return Padding(
             padding:
@@ -74,45 +74,25 @@ class _ControlPageState extends State<ControlPage> {
                   onSwapMode: _swapMode,
                 ),
                 const SizedBox(height: 30),
-                ControllerCard(
-                  title: 'AERATOR',
-                  subtitle: 'To keep the water oxygenated',
-                  icon: Icons.bubble_chart_rounded,
-                  switchState: isManualMode ? manual.aerator : auto.aerator,
-                  relayPath: 'aerator',
-                  isManualMode: isManualMode,
-                  onToggle: _toggleRelay,
-                ),
-                const SizedBox(height: 15),
-                ControllerCard(
-                  title: 'PH BUFFER',
-                  subtitle: 'Adjust the pH level',
-                  icon: Icons.settings,
-                  switchState: isManualMode ? manual.phBuffer : auto.phBuffer,
-                  relayPath: 'ph_buffer',
-                  isManualMode: isManualMode,
-                  onToggle: _toggleRelay,
-                ),
-                const SizedBox(height: 15),
-                ControllerCard(
-                  title: 'A NUTRIENT',
-                  subtitle: 'Composition of AB Mix Nutrient',
-                  icon: Icons.science,
-                  switchState: isManualMode ? manual.nutrientA : auto.nutrientA,
-                  relayPath: 'nutrient_a',
-                  isManualMode: isManualMode,
-                  onToggle: _toggleRelay,
-                ),
-                const SizedBox(height: 15),
-                ControllerCard(
-                  title: 'B NUTRIENT',
-                  subtitle: 'Composition of AB Mix Nutrient',
-                  icon: Icons.science,
-                  switchState: isManualMode ? manual.nutrientB : auto.nutrientB,
-                  relayPath: 'nutrient_b',
-                  isManualMode: isManualMode,
-                  onToggle: _toggleRelay,
-                ),
+
+                // Looping untuk menampilkan relay secara dinamis
+                ...relays.manual.keys.map((relayKey) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: ControllerCard(
+                      title: relayKey.toUpperCase().replaceAll("_", " "),
+                      subtitle:
+                          'Relay Control for ${relayKey.replaceAll("_", " ")}',
+                      icon: Icons.power_settings_new,
+                      switchState: isManualMode
+                          ? relays.manual[relayKey] ?? false
+                          : relays.auto[relayKey] ?? false,
+                      relayPath: relayKey,
+                      isManualMode: isManualMode,
+                      onToggle: _toggleRelay,
+                    ),
+                  );
+                }),
               ],
             ),
           );
