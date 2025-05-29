@@ -1,1 +1,22 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"hydroponic-monitoring-sandbox","appId":"1:1073522099644:android:5bc086f0d831979c9557b9","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"hydroponic-monitoring-sandbox","appId":"1:1073522099644:ios:cfae0b578f7d6d479557b9","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"hydroponic-monitoring-sandbox","configurations":{"android":"1:1073522099644:android:5bc086f0d831979c9557b9","ios":"1:1073522099644:ios:cfae0b578f7d6d479557b9"}}}}}}
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": "public"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "runtime": "nodejs20"
+    }
+  ]
+}

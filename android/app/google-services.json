@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1073522099644",
+    "firebase_url": "https://hydroponic-monitoring-sandbox-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "hydroponic-monitoring-sandbox",
+    "storage_bucket": "hydroponic-monitoring-sandbox.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073522099644:android:5bc086f0d831979c9557b9",
+        "android_client_info": {
+          "package_name": "com.example.hydroponic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ9fl15ccYhwT8b0p979vPMiSpSqjbVLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

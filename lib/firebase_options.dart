@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1073522099644',
     projectId: 'hydroponic-monitoring-sandbox',
     databaseURL: 'https://hydroponic-monitoring-sandbox-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'hydroponic-monitoring-sandbox.appspot.com',
+    storageBucket: 'hydroponic-monitoring-sandbox.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1073522099644',
     projectId: 'hydroponic-monitoring-sandbox',
     databaseURL: 'https://hydroponic-monitoring-sandbox-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'hydroponic-monitoring-sandbox.appspot.com',
+    storageBucket: 'hydroponic-monitoring-sandbox.firebasestorage.app',
     iosBundleId: 'com.example.hydroponic',
   );
 

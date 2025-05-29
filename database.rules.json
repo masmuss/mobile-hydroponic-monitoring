@@ -1,0 +1,39 @@
+{
+  "rules": {
+    ".read": "true",
+    ".write": "true",
+    "devices": {
+      "$device_id": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        "configs": {
+          "mode": {
+            ".validate": "newData.isString() && (newData.val() === 'auto' || newData.val() === 'manual')"
+          },
+          "schedule": {
+            "$week": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            }
+          },
+          "thresholds": {
+            "$sensor_type": {
+              "min": { ".validate": "newData.isNumber()" },
+              "max": { ".validate": "newData.isNumber()" }
+            }
+          }
+        },
+        "records": {
+          ".indexOn": ["datetime"],
+          "$record": {
+            "datetime": {
+              ".validate": "newData.isString()"
+            },
+            "$sensor_value": {
+              ".validate": "newData.isNumber()"
+            }
+          }
+        }
+      }
+    }
+  }
+}
