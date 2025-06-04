@@ -8,14 +8,14 @@ class Relays {
   });
 
   factory Relays.fromJson(Map<Object?, Object?> json) => Relays(
-    auto: json["auto"],
-    manual: json["manual"],
-  );
+        auto: json["auto"],
+        manual: json["manual"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "auto": auto.toJson(),
-    "manual": manual.toJson(),
-  };
+        "auto": auto.toJson(),
+        "manual": manual.toJson(),
+      };
 }
 
 class Auto {
@@ -23,25 +23,29 @@ class Auto {
   bool nutrientB;
   bool phBuffer;
   bool aerator;
+  bool water;
 
   Auto({
     required this.nutrientA,
     required this.nutrientB,
     required this.phBuffer,
     required this.aerator,
+    required this.water,
   });
 
   factory Auto.fromJson(Map<Object?, Object?> json) => Auto(
-    nutrientA: json["nutrient_a"] as bool,
-    nutrientB: json["nutrient_b"] as bool,
-    phBuffer: json["ph_buffer"] as bool,
-    aerator: json["aerator"] as bool,
-  );
+        nutrientA: json["nutrient_a"] as bool,
+        nutrientB: json["nutrient_b"] as bool,
+        phBuffer: json["ph_buffer"] as bool,
+        aerator: json["aerator"] as bool,
+        water: json["water"] as bool,
+      );
 
   Map<String, dynamic> toJson() => {
-    "nutrient_a": nutrientA,
-    "nutrient_b": nutrientB,
-    "ph_buffer": phBuffer,
-    "aerator": aerator,
-  };
+        "nutrient_a": nutrientA,
+        "nutrient_b": nutrientB,
+        "ph_buffer": phBuffer,
+        "aerator": aerator,
+        "water": water,
+      };
 }
