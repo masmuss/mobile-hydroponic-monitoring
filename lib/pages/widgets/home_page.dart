@@ -6,6 +6,7 @@ import 'package:hydroponic/pages/common/colors.dart';
 import 'package:hydroponic/pages/common/styles.dart';
 import 'package:hydroponic/services/device_service.dart';
 import 'package:hydroponic/models/record.dart';
+import 'package:hydroponic/services/fuzzy.dart';
 import 'package:hydroponic/widgets/overview/overview_card.dart';
 import 'package:intl/intl.dart';
 
@@ -20,6 +21,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   final DeviceService _deviceService = DeviceService();
+  final FuzzyService _fuzzyService = FuzzyService();
   DateTime? _selectedDate; // Tanggal yang dipilih untuk filter
   List<Log> _allLogs = []; // Menyimpan semua logs untuk filtering
   DateTime? _lastUpdateTime; // Tambahan untuk melacak waktu terakhir pembaruan

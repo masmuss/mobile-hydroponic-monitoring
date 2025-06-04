@@ -24,7 +24,6 @@ class _ControlPageState extends State<ControlPage> {
   final DeviceService _deviceService = DeviceService();
   bool isManualMode = true;
 
-  /// Fungsi untuk mengubah status relay di Firebase
   Future<void> _toggleRelay(String relayKey, bool value) async {
     try {
       await _deviceService.updateRelayConfig(widget.deviceId, relayKey, value);
@@ -35,7 +34,6 @@ class _ControlPageState extends State<ControlPage> {
     }
   }
 
-  /// Mengubah mode antara Manual & Auto
   void _swapMode() {
     setState(() {
       isManualMode = !isManualMode;
@@ -62,10 +60,12 @@ class _ControlPageState extends State<ControlPage> {
 
           final config = snapshot.data!;
           final relays = Relays.fromJson(config.relays);
+          final manual = Auto.fromJson(relays.manual);
+          final auto = Auto.fromJson(relays.auto);
 
           return Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
+            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -230,7 +230,7 @@ class ControllerCard extends StatelessWidget {
           ),
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -250,11 +250,11 @@ class ControllerCard extends StatelessWidget {
             value: currentState,
             onChanged: isManualMode
                 ? (value) {
-                    onToggle(relayPath, value);
-                  }
+              onToggle(relayPath, value);
+            }
                 : null,
             activeTrackColor:
-                isManualMode ? BaseColors.success700 : BaseColors.neutral400,
+            isManualMode ? BaseColors.success700 : BaseColors.neutral400,
             activeColor: BaseColors.neutral100,
           ),
         ),

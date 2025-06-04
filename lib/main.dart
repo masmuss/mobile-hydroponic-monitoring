@@ -82,7 +82,7 @@ void main() async {
   // Dapatkan token dan subscribe ke topik di sini jika diperlukan
   // String? fcmToken = await notificationService.getFCMToken();
   // print("FCM Token: $fcmToken");
-  notificationService.subscribeToDeviceAlerts("your_device_id_from_database"); // Ganti dengan deviceId aktual
+  notificationService.subscribeToDeviceAlerts("LEBIH"); // Ganti dengan deviceId aktual
 
   runApp(
     ChangeNotifierProvider(
