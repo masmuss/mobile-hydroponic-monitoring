@@ -3,7 +3,6 @@ import 'package:hydroponic/pages/common/colors.dart';
 import 'package:hydroponic/pages/common/styles.dart';
 import 'package:hydroponic/pages/devices_list.dart';
 import 'package:hydroponic/pages/widgets/home_page.dart';
-import 'package:hydroponic/pages/widgets/main_page.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
