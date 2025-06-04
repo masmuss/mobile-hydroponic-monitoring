@@ -6,7 +6,6 @@ import 'package:hydroponic/pages/common/styles.dart';
 import 'package:hydroponic/services/device_service.dart';
 import 'package:hydroponic/models/record.dart';
 import 'package:hydroponic/services/fuzzy.dart';
-import 'package:hydroponic/services/notification.dart';
 import 'package:hydroponic/widgets/overview/overview_card.dart';
 import 'package:intl/intl.dart';
 
@@ -22,7 +21,6 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final DeviceService _deviceService = DeviceService();
   final FuzzyService _fuzzyService = FuzzyService();
-  final NotificationService _notificationService = NotificationService();
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +78,6 @@ class _HomepageState extends State<Homepage> {
       String sensorList = abnormalSensors
           .map((sensor) => "${sensor['sensor']} (${sensor['status']})")
           .join(", ");
-
-      _notificationService.showNotification(
-        title: "⚠️ Lingkungan Tidak Normal!",
-        body: "Sensor tidak normal: $sensorList",
-        payload:
-            "sensor_alert",
-      );
     }
 
     // Tentukan warna dan ikon berdasarkan status
