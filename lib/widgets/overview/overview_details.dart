@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hydroponic/pages/common/colors.dart';
 
 class OverviewDetails extends StatelessWidget {
   final Map<String, num> sensorData;
