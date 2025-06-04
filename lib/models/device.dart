@@ -1,5 +1,4 @@
 import 'package:hydroponic/models/configs.dart';
-import 'package:hydroponic/models/record.dart';
 
 class Device {
   Configs configs;
