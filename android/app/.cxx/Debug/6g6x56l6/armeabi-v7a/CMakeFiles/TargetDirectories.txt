@@ -1,0 +1,2 @@
+/Users/khoirul/AndroidStudioProjects/hydroponic/android/app/.cxx/Debug/6g6x56l6/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/khoirul/AndroidStudioProjects/hydroponic/android/app/.cxx/Debug/6g6x56l6/armeabi-v7a/CMakeFiles/rebuild_cache.dir

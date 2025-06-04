@@ -24,6 +24,7 @@ class _ControlPageState extends State<ControlPage> {
   final DeviceService _deviceService = DeviceService();
   bool isManualMode = true;
 
+  /// Fungsi untuk mengubah status relay di Firebase
   Future<void> _toggleRelay(String relayKey, bool value) async {
     try {
       await _deviceService.updateRelayConfig(widget.deviceId, relayKey, value);
@@ -34,6 +35,7 @@ class _ControlPageState extends State<ControlPage> {
     }
   }
 
+  /// Mengubah mode antara Manual & Auto
   void _swapMode() {
     setState(() {
       isManualMode = !isManualMode;
@@ -60,8 +62,6 @@ class _ControlPageState extends State<ControlPage> {
 
           final config = snapshot.data!;
           final relays = Relays.fromJson(config.relays);
-          final manual = Auto.fromJson(relays.manual);
-          final auto = Auto.fromJson(relays.auto);
 
           return Padding(
             padding:
