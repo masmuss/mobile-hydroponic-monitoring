@@ -1,16 +1,49 @@
-# hydroponic
+# Hydroponic IoT Monitoring
 
-A new Flutter project for hydroponic IoT monitoring.
+A Flutter project for hydroponic IoT monitoring.
 
-## Getting Started
+## Prerequisites
 
-This project is a starting point for a Flutter application.
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- [Dart SDK](https://dart.dev/get-dart) (usually included with Flutter)
+- [Android Studio](https://developer.android.com/studio) or [VS Code](https://code.visualstudio.com/)
+- Device or emulator for testing
 
-A few resources to get you started if this is your first Flutter project:
+## Setup
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. **Clone the repository**
+```sh
+   git clone https://github.com/masmuss/mobile-hydroponic-monitoring.git
+   cd mobile-hydroponic-monitoring
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. **Install dependencies**
+```sh
+   flutter pub get
+```
+
+3. **(Optional) Configure platforms**  
+- For Android: Open `android` folder in Android Studio and run `flutter pub get`.
+- For iOS: Open `ios` folder in Xcode and run `pod install`.
+
+## **Running the App**
+1. Start an emulator or connect a device  
+2. Run the app
+```sh
+    flutter run
+```
+
+## Building for Release
+- Android
+```sh
+    flutter build apk --release
+```
+
+- iOS
+```sh
+    flutter build ios --release
+```
+
+## Troubleshooting
+Run `flutter doctor` to check for any missing dependencies.
+Ensure your device/emulator is connected and recognized by Flutter.
