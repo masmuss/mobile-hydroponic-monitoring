@@ -34,7 +34,6 @@ class _HomepageState extends State<Homepage> {
     log('Homepage initialized with deviceId: ${widget.deviceId}');
   }
 
-  // Fungsi untuk memilih tanggal
   Future<void> _pickDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -79,10 +78,10 @@ class _HomepageState extends State<Homepage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _buildFuzzyResult(record),
         _buildOverviewCard(record, formattedDate),
         _buildLastUpdated(record),
         const SizedBox(height: 20),
-        // Tambahkan bagian logs dengan filter tanggal
         _buildLogsWithFilter(),
       ],
     );
